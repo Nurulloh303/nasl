@@ -1,0 +1,436 @@
+INFO 2026-03-30 20:55:55,315 autoreload 13004 6516 Watching for file changes with StatReloader
+WARNING 2026-03-30 20:56:05,551 base 13004 8412 Session data corrupted
+INFO 2026-03-30 20:56:05,596 log 13004 8412 "GET /admin/ HTTP/1.1" 302 0
+WARNING 2026-03-30 20:56:05,809 base 13004 8412 Session data corrupted
+INFO 2026-03-30 20:56:06,014 log 13004 8412 "GET /admin/login/?next=/admin/ HTTP/1.1" 200 4084
+INFO 2026-03-30 20:56:06,099 log 13004 8412 "GET /static/admin/css/login.css HTTP/1.1" 304 0
+WARNING 2026-03-30 20:56:15,954 log 13004 8412 Not Found: /api/v1/auth/
+WARNING 2026-03-30 20:56:15,985 log 13004 8412 "GET /api/v1/auth/ HTTP/1.1" 404 3979
+WARNING 2026-03-30 20:56:16,174 log 13004 8412 Not Found: /favicon.ico
+WARNING 2026-03-30 20:56:16,178 log 13004 8412 "GET /favicon.ico HTTP/1.1" 404 3336
+WARNING 2026-03-30 20:56:21,887 log 13004 8412 Not Found: /api/v1/
+WARNING 2026-03-30 20:56:21,893 log 13004 8412 "GET /api/v1/ HTTP/1.1" 404 3324
+WARNING 2026-03-30 20:56:33,265 log 13004 8412 Not Found: /api/v1/generate
+WARNING 2026-03-30 20:56:33,266 log 13004 8412 "GET /api/v1/generate HTTP/1.1" 404 3348
+WARNING 2026-03-30 20:56:41,732 log 13004 8412 Not Found: /api/v1/generate/
+WARNING 2026-03-30 20:56:41,733 log 13004 8412 "GET /api/v1/generate/ HTTP/1.1" 404 4343
+WARNING 2026-03-30 20:57:04,047 log 13004 8412 Method Not Allowed: /api/v1/generate/prompt-preview/
+WARNING 2026-03-30 20:57:04,048 log 13004 8412 "GET /api/v1/generate/prompt-preview/ HTTP/1.1" 405 5559
+INFO 2026-03-30 20:57:04,130 log 13004 15828 "GET /static/rest_framework/js/load-ajax-form.js HTTP/1.1" 304 0
+INFO 2026-03-30 20:57:04,131 log 13004 8412 "GET /static/rest_framework/js/bootstrap.min.js HTTP/1.1" 304 0
+INFO 2026-03-30 20:57:04,143 log 13004 8412 "GET /static/rest_framework/js/prettify-min.js HTTP/1.1" 304 0
+INFO 2026-03-30 20:57:04,144 log 13004 15828 "GET /static/rest_framework/css/bootstrap-tweaks.css HTTP/1.1" 304 0
+INFO 2026-03-30 20:57:04,166 log 13004 8412 "GET /static/rest_framework/css/default.css HTTP/1.1" 304 0
+INFO 2026-03-30 20:57:04,167 log 13004 15828 "GET /static/rest_framework/css/prettify.css HTTP/1.1" 304 0
+INFO 2026-03-30 20:57:04,180 log 13004 8412 "GET /static/rest_framework/css/bootstrap.min.css HTTP/1.1" 304 0
+INFO 2026-03-30 20:57:04,216 log 13004 15828 "GET /static/rest_framework/js/default.js HTTP/1.1" 304 0
+INFO 2026-03-30 20:57:04,230 log 13004 8412 "GET /static/rest_framework/js/jquery-3.7.1.min.js HTTP/1.1" 304 0
+INFO 2026-03-30 20:57:04,269 log 13004 8412 "GET /static/rest_framework/js/csrf.js HTTP/1.1" 304 0
+INFO 2026-03-30 20:57:04,268 log 13004 15828 "GET /static/rest_framework/js/ajax-form.js HTTP/1.1" 304 0
+INFO 2026-03-30 20:57:04,288 log 13004 15828 "GET /static/rest_framework/img/grid.png HTTP/1.1" 304 0
+WARNING 2026-03-30 20:57:14,869 log 13004 15828 Not Found: /api/v1/generate/
+WARNING 2026-03-30 20:57:14,870 log 13004 15828 "GET /api/v1/generate/ HTTP/1.1" 404 4343
+WARNING 2026-03-30 20:57:21,372 log 13004 15828 Unauthorized: /api/v1/generate/submit/
+WARNING 2026-03-30 20:57:21,519 log 13004 15828 "GET /api/v1/generate/submit/ HTTP/1.1" 401 3719
+WARNING 2026-03-30 21:07:48,741 log 13004 5704 Not Found: /api/v1/generate/
+WARNING 2026-03-30 21:07:48,743 log 13004 5704 "GET /api/v1/generate/ HTTP/1.1" 404 4343
+WARNING 2026-03-30 21:08:01,177 log 13004 5704 Unauthorized: /api/v1/generate/requests/
+WARNING 2026-03-30 21:08:01,377 log 13004 5704 "GET /api/v1/generate/requests/ HTTP/1.1" 401 5094
+INFO 2026-03-30 21:13:29,181 autoreload 13004 6516 C:\Users\nurulloh\Desktop\naslai_backend\config\urls.py changed, reloading.
+INFO 2026-03-30 21:13:34,896 autoreload 14736 8076 Watching for file changes with StatReloader
+INFO 2026-03-30 21:14:54,769 autoreload 14736 8076 C:\Users\nurulloh\Desktop\naslai_backend\apps\accounts\models_payment.py changed, reloading.
+INFO 2026-03-30 21:14:59,087 autoreload 14556 13592 Watching for file changes with StatReloader
+INFO 2026-03-30 22:01:50,116 autoreload 11720 1296 Watching for file changes with StatReloader
+INFO 2026-03-30 22:01:59,449 log 11720 5800 "GET /api/docs/ HTTP/1.1" 200 4644
+INFO 2026-03-30 22:02:03,357 log 11720 5800 "GET /api/schema/ HTTP/1.1" 200 19200
+WARNING 2026-03-30 22:02:23,202 log 11720 5800 Not Found: /api/auth/
+WARNING 2026-03-30 22:02:23,204 log 11720 5800 "GET /api/auth/ HTTP/1.1" 404 3488
+WARNING 2026-03-30 22:02:23,423 log 11720 5800 Not Found: /favicon.ico
+WARNING 2026-03-30 22:02:23,440 log 11720 5800 "GET /favicon.ico HTTP/1.1" 404 3494
+WARNING 2026-03-30 22:02:40,803 log 11720 5800 Not Found: /api/v1/payment/
+WARNING 2026-03-30 22:02:40,804 log 11720 5800 "GET /api/v1/payment/ HTTP/1.1" 404 4761
+INFO 2026-03-30 22:02:49,726 log 11720 5800 "GET /api/v1/payment/pricing HTTP/1.1" 301 0
+INFO 2026-03-30 22:02:50,021 log 11720 5800 "GET /api/v1/payment/pricing/ HTTP/1.1" 200 5257
+WARNING 2026-03-30 22:03:17,040 log 11720 5800 Not Found: /api/v1/payment/
+WARNING 2026-03-30 22:03:17,042 log 11720 5800 "GET /api/v1/payment/ HTTP/1.1" 404 4761
+WARNING 2026-03-30 22:03:25,977 log 11720 5800 Unauthorized: /api/v1/payment/initiate-payment/
+WARNING 2026-03-30 22:03:25,993 log 11720 5800 "GET /api/v1/payment/initiate-payment/ HTTP/1.1" 401 3734
+INFO 2026-04-01 21:52:26,159 autoreload 9692 12812 Watching for file changes with StatReloader
+WARNING 2026-04-01 22:06:03,995 log 9692 9980 Not Found: /
+WARNING 2026-04-01 22:06:04,171 log 9692 9980 "GET / HTTP/1.1" 404 3443
+WARNING 2026-04-01 22:06:04,697 log 9692 13056 Not Found: /favicon.ico
+WARNING 2026-04-01 22:06:04,699 log 9692 13056 "GET /favicon.ico HTTP/1.1" 404 3494
+WARNING 2026-04-01 22:06:07,038 log 9692 13056 Not Found: /api/v1
+WARNING 2026-04-01 22:06:07,066 log 9692 13056 "GET /api/v1 HTTP/1.1" 404 3479
+WARNING 2026-04-01 22:06:13,364 log 9692 5504 Not Found: /api
+WARNING 2026-04-01 22:06:13,369 log 9692 5504 "GET /api HTTP/1.1" 404 3470
+WARNING 2026-04-01 22:06:23,895 log 9692 4836 Not Found: /api/v1/auth/
+WARNING 2026-04-01 22:06:23,901 log 9692 4836 "GET /api/v1/auth/ HTTP/1.1" 404 4137
+INFO 2026-04-01 22:06:31,801 log 9692 4836 "GET /api/v1/auth/register HTTP/1.1" 301 0
+WARNING 2026-04-01 22:06:32,650 log 9692 4836 Method Not Allowed: /api/v1/auth/register/
+WARNING 2026-04-01 22:06:32,653 log 9692 4836 "GET /api/v1/auth/register/ HTTP/1.1" 405 8152
+INFO 2026-04-01 22:06:33,669 log 9692 12820 "GET /static/rest_framework/css/prettify.css HTTP/1.1" 200 817
+INFO 2026-04-01 22:06:33,697 log 9692 12960 "GET /static/rest_framework/js/ajax-form.js HTTP/1.1" 200 3796
+INFO 2026-04-01 22:06:33,698 log 9692 1244 "GET /static/rest_framework/css/bootstrap-tweaks.css HTTP/1.1" 200 3426
+INFO 2026-04-01 22:06:33,700 log 9692 9820 "GET /static/rest_framework/css/default.css HTTP/1.1" 200 1152
+INFO 2026-04-01 22:06:33,703 log 9692 6492 "GET /static/rest_framework/js/jquery-3.7.1.min.js HTTP/1.1" 200 87533
+INFO 2026-04-01 22:06:33,712 log 9692 4836 "GET /static/rest_framework/css/bootstrap.min.css HTTP/1.1" 200 121457
+INFO 2026-04-01 22:06:33,796 log 9692 12960 "GET /static/rest_framework/js/prettify-min.js HTTP/1.1" 200 13632
+INFO 2026-04-01 22:06:33,799 log 9692 12820 "GET /static/rest_framework/js/csrf.js HTTP/1.1" 200 1793
+INFO 2026-04-01 22:06:33,867 log 9692 1244 "GET /static/rest_framework/js/bootstrap.min.js HTTP/1.1" 200 39680
+INFO 2026-04-01 22:06:33,971 log 9692 9820 "GET /static/rest_framework/js/default.js HTTP/1.1" 200 1268
+INFO 2026-04-01 22:06:34,204 log 9692 4836 "GET /static/rest_framework/js/load-ajax-form.js HTTP/1.1" 200 59
+INFO 2026-04-01 22:06:34,264 log 9692 12960 "GET /static/rest_framework/img/grid.png HTTP/1.1" 200 1458
+WARNING 2026-04-01 22:07:01,712 log 9692 12960 Bad Request: /api/v1/auth/register/
+WARNING 2026-04-01 22:07:01,755 log 9692 12960 "POST /api/v1/auth/register/ HTTP/1.1" 400 8306
+INFO 2026-04-01 22:07:34,644 log 9692 12960 "POST /api/v1/auth/register/ HTTP/1.1" 201 9078
+INFO 2026-04-01 22:08:19,914 log 9692 11184 "GET /admin/ HTTP/1.1" 302 0
+INFO 2026-04-01 22:08:20,137 log 9692 11184 "GET /admin/login/?next=/admin/ HTTP/1.1" 200 4084
+INFO 2026-04-01 22:08:20,214 log 9692 10720 "GET /static/admin/css/dark_mode.css HTTP/1.1" 200 3538
+INFO 2026-04-01 22:08:20,265 log 9692 11184 "GET /static/admin/css/base.css HTTP/1.1" 200 23100
+INFO 2026-04-01 22:08:20,266 log 9692 3936 "GET /static/admin/css/nav_sidebar.css HTTP/1.1" 200 2810
+INFO 2026-04-01 22:08:20,296 log 9692 11716 "GET /static/admin/css/login.css HTTP/1.1" 200 951
+INFO 2026-04-01 22:08:20,370 log 9692 1112 "GET /static/admin/js/theme.js HTTP/1.1" 200 1653
+INFO 2026-04-01 22:08:20,446 log 9692 1112 "GET /static/admin/js/nav_sidebar.js HTTP/1.1" 200 3063
+INFO 2026-04-01 22:08:20,473 log 9692 6064 "GET /static/admin/css/responsive.css HTTP/1.1" 200 16273
+INFO 2026-04-01 22:08:24,550 log 9692 6064 "POST /admin/login/?next=/admin/ HTTP/1.1" 302 0
+INFO 2026-04-01 22:08:24,794 log 9692 6064 "GET /admin/ HTTP/1.1" 200 9294
+INFO 2026-04-01 22:08:24,896 log 9692 6064 "GET /static/admin/css/dashboard.css HTTP/1.1" 200 441
+INFO 2026-04-01 22:08:24,955 log 9692 6064 "GET /static/admin/img/icon-addlink.svg HTTP/1.1" 200 593
+INFO 2026-04-01 22:08:24,962 log 9692 1112 "GET /static/admin/img/icon-changelink.svg HTTP/1.1" 200 978
+INFO 2026-04-01 22:08:27,606 log 9692 1112 "GET /admin/accounts/profile/ HTTP/1.1" 200 13431
+INFO 2026-04-01 22:08:27,617 log 9692 11716 "GET /static/admin/js/jquery.init.js HTTP/1.1" 200 347
+INFO 2026-04-01 22:08:27,618 log 9692 10720 "GET /static/admin/js/actions.js HTTP/1.1" 200 8076
+INFO 2026-04-01 22:08:27,621 log 9692 3936 "GET /static/admin/js/core.js HTTP/1.1" 200 6208
+INFO 2026-04-01 22:08:27,628 log 9692 11184 "GET /static/admin/js/admin/RelatedObjectLookups.js HTTP/1.1" 200 9777
+INFO 2026-04-01 22:08:27,695 log 9692 6064 "GET /static/admin/js/vendor/jquery/jquery.js HTTP/1.1" 200 285314
+INFO 2026-04-01 22:08:27,823 log 9692 1112 "GET /static/admin/css/changelists.css HTTP/1.1" 200 7498
+INFO 2026-04-01 22:08:27,840 log 9692 10720 "GET /static/admin/js/prepopulate.js HTTP/1.1" 200 1531
+INFO 2026-04-01 22:08:27,866 log 9692 11716 "GET /static/admin/js/urlify.js HTTP/1.1" 200 7887
+INFO 2026-04-01 22:08:27,906 log 9692 11184 "GET /static/admin/js/vendor/xregexp/xregexp.js HTTP/1.1" 200 325171
+INFO 2026-04-01 22:08:27,938 log 9692 6064 "GET /static/admin/img/search.svg HTTP/1.1" 200 607
+INFO 2026-04-01 22:08:28,056 log 9692 6064 "GET /static/admin/js/filters.js HTTP/1.1" 200 978
+INFO 2026-04-01 22:08:28,296 log 9692 3936 "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2026-04-01 22:08:28,453 log 9692 3936 "GET /static/admin/img/tooltag-add.svg HTTP/1.1" 200 593
+INFO 2026-04-01 22:08:37,794 log 9692 3936 "GET /admin/accounts/profile/2/change/ HTTP/1.1" 200 16045
+INFO 2026-04-01 22:08:37,866 log 9692 6064 "GET /static/admin/js/prepopulate_init.js HTTP/1.1" 200 586
+INFO 2026-04-01 22:08:37,928 log 9692 3936 "GET /static/admin/css/forms.css HTTP/1.1" 200 8831
+INFO 2026-04-01 22:08:37,994 log 9692 6064 "GET /static/admin/css/widgets.css HTTP/1.1" 200 11811
+INFO 2026-04-01 22:08:38,060 log 9692 3936 "GET /static/admin/img/icon-viewlink.svg HTTP/1.1" 200 928
+INFO 2026-04-01 22:08:38,327 log 9692 3936 "GET /static/admin/js/change_form.js HTTP/1.1" 200 606
+INFO 2026-04-01 22:08:38,351 log 9692 11184 "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2026-04-01 22:08:53,485 log 9692 11184 "POST /admin/accounts/profile/2/change/ HTTP/1.1" 302 0
+INFO 2026-04-01 22:08:53,935 log 9692 11184 "GET /admin/accounts/profile/ HTTP/1.1" 200 13639
+INFO 2026-04-01 22:08:54,338 log 9692 11184 "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2026-04-01 22:08:54,533 log 9692 11184 "GET /static/admin/img/icon-yes-dark.svg HTTP/1.1" 200 558
+INFO 2026-04-07 15:24:46,934 autoreload 14372 14420 Watching for file changes with StatReloader
+INFO 2026-04-07 15:44:59,090 autoreload 11696 12568 Watching for file changes with StatReloader
+INFO 2026-04-07 15:45:21,273 autoreload 5208 10788 Watching for file changes with StatReloader
+INFO 2026-04-07 15:48:13,710 autoreload 2032 11488 Watching for file changes with StatReloader
+INFO 2026-04-07 16:09:02,917 autoreload 3644 15972 Watching for file changes with StatReloader
+INFO 2026-04-07 16:09:20,505 basehttp 3644 4788 "GET / HTTP/1.1" 301 0
+INFO 2026-04-07 16:09:20,893 basehttp 3644 15920 code 400, message Bad request version ('\x00\x12\x00\x10\x04\x03\x08\x04\x04\x01\x05\x03\x08\x05\x05\x01\x08\x06\x06\x01ÿ\x01\x00\x01\x00\x00\x12\x00\x00\x00')
+ERROR 2026-04-07 16:09:20,893 basehttp 3644 15920 You're accessing the development server over HTTPS, but it only supports HTTP.
+INFO 2026-04-07 16:09:21,169 basehttp 3644 9452 code 400, message Bad request version (')\x15\x16GU\x11U¡´@:¬<\x02FÍÚ4*ÄÏgª5Gx')
+ERROR 2026-04-07 16:09:21,169 basehttp 3644 9452 You're accessing the development server over HTTPS, but it only supports HTTP.
+INFO 2026-04-07 16:09:21,233 basehttp 3644 8900 code 400, message Bad request version ('æH%D9SØÜ\x8d\x8bÚ|Á+«|,')
+ERROR 2026-04-07 16:09:21,233 basehttp 3644 8900 You're accessing the development server over HTTPS, but it only supports HTTP.
+INFO 2026-04-07 16:09:21,498 basehttp 3644 12908 code 400, message Bad request version ('localhost\x00')
+ERROR 2026-04-07 16:09:21,500 basehttp 3644 12908 You're accessing the development server over HTTPS, but it only supports HTTP.
+INFO 2026-04-07 16:10:06,391 basehttp 3644 13684 "GET / HTTP/1.1" 301 0
+INFO 2026-04-07 16:10:06,403 basehttp 3644 9696 code 400, message Bad HTTP/0.9 request type ('\x16\x03\x01\x07\x00\x01\x00\x06ü\x03\x03')
+ERROR 2026-04-07 16:10:06,404 basehttp 3644 9696 You're accessing the development server over HTTPS, but it only supports HTTP.
+INFO 2026-04-07 16:10:06,426 basehttp 3644 6620 code 400, message Bad request version ('{¦©#¢þa·k\x99£OB.ÄÙÏØU\x94Á\x13°N\x93¬\x11')
+ERROR 2026-04-07 16:10:06,426 basehttp 3644 6620 You're accessing the development server over HTTPS, but it only supports HTTP.
+INFO 2026-04-07 18:49:00,486 autoreload 3644 15972 C:\Users\nurulloh\Desktop\naslai_backenddddd\config\settings.py changed, reloading.
+INFO 2026-04-07 18:49:03,599 autoreload 14672 6584 Watching for file changes with StatReloader
+INFO 2026-04-07 18:49:49,852 autoreload 14672 6584 C:\Users\nurulloh\Desktop\naslai_backenddddd\config\settings.py changed, reloading.
+INFO 2026-04-07 18:49:51,191 autoreload 11012 2388 Watching for file changes with StatReloader
+INFO 2026-04-07 18:49:58,028 basehttp 11012 10428 code 400, message Bad request version ('CþR´í\x1a\x18]\x95H/\x7fa)_Ô\x8bQd´C%ÙzÕ\x00')
+ERROR 2026-04-07 18:49:58,028 basehttp 11012 10428 You're accessing the development server over HTTPS, but it only supports HTTP.
+INFO 2026-04-07 18:49:58,032 basehttp 11012 3000 code 400, message Bad request version ('{²Üdµ¦=ôç\x8eP')
+ERROR 2026-04-07 18:49:58,032 basehttp 11012 3000 You're accessing the development server over HTTPS, but it only supports HTTP.
+INFO 2026-04-07 18:49:58,036 basehttp 11012 6656 code 400, message Bad request version ('Î)U*b(2ÊB¡÷#8kVr§\x17#¨Ã\x0fÄ\x05Ã\x7fY\x1a\x7fP©¯>´')
+ERROR 2026-04-07 18:49:58,038 basehttp 11012 6656 You're accessing the development server over HTTPS, but it only supports HTTP.
+INFO 2026-04-07 18:49:58,051 basehttp 11012 10780 code 400, message Bad request version ('êê\x13\x01\x13\x02\x13\x03À+À/À,À0Ì©Ì¨À\x13À\x14\x00\x9c\x00\x9d\x00/\x005\x01\x00\x06S::\x00\x00\x00\x1b\x00\x03\x02\x00\x02\x00')
+ERROR 2026-04-07 18:49:58,053 basehttp 11012 10780 You're accessing the development server over HTTPS, but it only supports HTTP.
+INFO 2026-04-07 18:51:42,820 basehttp 11012 9308 code 400, message Bad request version ('\x92@\x03\x99\x9d\x14u¼ø=\x86Â\x14c°±ç\x82¤\x16¼R\x9bÂL£KP')
+ERROR 2026-04-07 18:51:42,820 basehttp 11012 9308 You're accessing the development server over HTTPS, but it only supports HTTP.
+INFO 2026-04-07 18:51:42,826 basehttp 11012 12156 code 400, message Bad request version ('n\x17\x14\x16û')
+ERROR 2026-04-07 18:51:42,830 basehttp 11012 12156 You're accessing the development server over HTTPS, but it only supports HTTP.
+INFO 2026-04-07 18:51:42,856 basehttp 11012 9392 code 400, message Bad request version ('ªª\x13\x01\x13\x02\x13\x03À+À/À,À0Ì©Ì¨À\x13À\x14\x00\x9c\x00\x9d\x00/\x005\x01\x00\x06s')
+ERROR 2026-04-07 18:51:42,864 basehttp 11012 9392 You're accessing the development server over HTTPS, but it only supports HTTP.
+INFO 2026-04-07 18:51:42,872 basehttp 11012 1928 code 400, message Bad request version ('\x02h2\x08http/1.1\x00')
+ERROR 2026-04-07 18:51:42,874 basehttp 11012 1928 You're accessing the development server over HTTPS, but it only supports HTTP.
+INFO 2026-04-07 18:51:58,292 autoreload 1652 7020 Watching for file changes with StatReloader
+INFO 2026-04-07 18:52:02,169 basehttp 1652 9676 code 400, message Bad request syntax ('\x16\x03\x01\x06à\x01\x00\x06Ü\x03\x03³\x9a]\x99Ó\x13$ñ\x05\x0e1.')
+ERROR 2026-04-07 18:52:02,184 basehttp 1652 9676 You're accessing the development server over HTTPS, but it only supports HTTP.
+INFO 2026-04-07 18:52:02,190 basehttp 1652 7240 code 400, message Bad request version ('¸í\x86\x00ÈiN\x08üõd\x96ú^\x02¥õIvïn\x19')
+ERROR 2026-04-07 18:52:02,190 basehttp 1652 7240 You're accessing the development server over HTTPS, but it only supports HTTP.
+INFO 2026-04-07 19:00:18,553 autoreload 13504 15616 Watching for file changes with StatReloader
+WARNING 2026-04-07 19:00:26,708 log 13504 14296 Not Found: /
+WARNING 2026-04-07 19:00:26,711 basehttp 13504 14296 "GET / HTTP/1.1" 404 3443
+WARNING 2026-04-07 19:00:27,323 log 13504 14296 Not Found: /favicon.ico
+WARNING 2026-04-07 19:00:27,329 basehttp 13504 14296 "GET /favicon.ico HTTP/1.1" 404 3494
+INFO 2026-04-07 19:00:41,837 basehttp 13504 14296 "GET /health HTTP/1.1" 301 0
+INFO 2026-04-07 19:00:41,908 basehttp 13504 16980 "GET /health/ HTTP/1.1" 200 5208
+INFO 2026-04-07 19:00:42,237 basehttp 13504 16536 "GET /static/rest_framework/js/ajax-form.js HTTP/1.1" 200 3796
+INFO 2026-04-07 19:00:42,250 basehttp 13504 16980 "GET /static/rest_framework/css/bootstrap.min.css HTTP/1.1" 200 121457
+INFO 2026-04-07 19:00:42,238 basehttp 13504 13244 "GET /static/rest_framework/css/prettify.css HTTP/1.1" 200 817
+INFO 2026-04-07 19:00:42,263 basehttp 13504 7020 "GET /static/rest_framework/css/bootstrap-tweaks.css HTTP/1.1" 200 3426
+INFO 2026-04-07 19:00:42,267 basehttp 13504 13008 "GET /static/rest_framework/css/default.css HTTP/1.1" 200 1152
+INFO 2026-04-07 19:00:42,278 basehttp 13504 16536 "GET /static/rest_framework/js/csrf.js HTTP/1.1" 200 1793
+INFO 2026-04-07 19:00:42,310 basehttp 13504 13244 "GET /static/rest_framework/js/bootstrap.min.js HTTP/1.1" 200 39680
+INFO 2026-04-07 19:00:42,312 basehttp 13504 7020 "GET /static/rest_framework/js/default.js HTTP/1.1" 200 1268
+INFO 2026-04-07 19:00:42,316 basehttp 13504 16980 "GET /static/rest_framework/js/prettify-min.js HTTP/1.1" 200 13632
+INFO 2026-04-07 19:00:42,372 basehttp 13504 13008 "GET /static/rest_framework/js/load-ajax-form.js HTTP/1.1" 200 59
+INFO 2026-04-07 19:00:42,405 basehttp 13504 16536 "GET /static/rest_framework/img/grid.png HTTP/1.1" 200 1458
+INFO 2026-04-07 19:00:42,396 basehttp 13504 1652 "GET /static/rest_framework/js/jquery-3.7.1.min.js HTTP/1.1" 200 87533
+WARNING 2026-04-07 19:00:46,289 log 13504 16536 Not Found: /
+WARNING 2026-04-07 19:00:46,327 basehttp 13504 16536 "GET / HTTP/1.1" 404 3443
+INFO 2026-04-07 19:00:54,318 basehttp 13504 16536 "GET /api/docs HTTP/1.1" 301 0
+INFO 2026-04-07 19:00:54,328 basehttp 13504 1652 "GET /api/docs/ HTTP/1.1" 200 4644
+INFO 2026-04-07 19:00:57,530 basehttp 13504 1652 "GET /api/schema/ HTTP/1.1" 200 18964
+WARNING 2026-04-07 19:01:08,462 log 13504 1652 Not Found: /api/
+WARNING 2026-04-07 19:01:08,466 basehttp 13504 1652 "GET /api/ HTTP/1.1" 404 3473
+WARNING 2026-04-07 19:01:20,195 log 13504 1652 Not Found: /api/v1/payment
+WARNING 2026-04-07 19:01:20,197 basehttp 13504 1652 "GET /api/v1/payment HTTP/1.1" 404 3503
+WARNING 2026-04-07 19:01:30,554 log 13504 1652 Not Found: /api/v1/payment/
+WARNING 2026-04-07 19:01:30,558 basehttp 13504 1652 "GET /api/v1/payment/ HTTP/1.1" 404 4761
+INFO 2026-04-07 19:01:45,879 basehttp 13504 1652 "GET /api/v1/payment/pricing/ HTTP/1.1" 200 5224
+WARNING 2026-04-07 19:01:50,846 log 13504 1652 Not Found: /api/v1/payment/
+WARNING 2026-04-07 19:01:50,854 basehttp 13504 1652 "GET /api/v1/payment/ HTTP/1.1" 404 4761
+WARNING 2026-04-07 19:02:01,160 log 13504 1652 Method Not Allowed: /api/v1/payment/complete-payment/
+WARNING 2026-04-07 19:02:01,162 basehttp 13504 1652 "GET /api/v1/payment/complete-payment/ HTTP/1.1" 405 5682
+INFO 2026-04-07 19:02:07,121 basehttp 13504 1652 "GET /api/docs/ HTTP/1.1" 200 4644
+INFO 2026-04-07 19:02:07,906 basehttp 13504 1652 "GET /api/schema/ HTTP/1.1" 200 18964
+WARNING 2026-04-07 19:02:43,346 log 13504 1652 Not Found: /api/
+WARNING 2026-04-07 19:02:43,347 basehttp 13504 1652 "GET /api/ HTTP/1.1" 404 3473
+WARNING 2026-04-07 19:02:51,714 log 13504 1652 Not Found: /api/auth
+WARNING 2026-04-07 19:02:51,720 basehttp 13504 1652 "GET /api/auth HTTP/1.1" 404 3485
+WARNING 2026-04-07 19:03:05,822 log 13504 1652 Not Found: /api/v1/auth/
+WARNING 2026-04-07 19:03:05,824 basehttp 13504 1652 "GET /api/v1/auth/ HTTP/1.1" 404 4418
+INFO 2026-04-07 19:03:12,897 basehttp 13504 1652 "GET /api/v1/auth/register HTTP/1.1" 301 0
+WARNING 2026-04-07 19:03:12,942 log 13504 13008 Method Not Allowed: /api/v1/auth/register/
+WARNING 2026-04-07 19:03:12,942 basehttp 13504 13008 "GET /api/v1/auth/register/ HTTP/1.1" 405 8152
+ERROR 2026-04-07 19:03:23,745 log 13504 13008 Internal Server Error: /api/v1/auth/register/
+ERROR 2026-04-07 19:03:23,747 basehttp 13504 13008 "POST /api/v1/auth/register/ HTTP/1.1" 500 8165
+ERROR 2026-04-07 19:03:47,460 log 13504 13008 Internal Server Error: /api/v1/auth/register/
+ERROR 2026-04-07 19:03:47,477 basehttp 13504 13008 "POST /api/v1/auth/register/ HTTP/1.1" 500 8165
+INFO 2026-04-07 19:04:08,248 autoreload 7056 6620 Watching for file changes with StatReloader
+INFO 2026-04-07 19:06:02,577 autoreload 14208 16604 Watching for file changes with StatReloader
+WARNING 2026-04-07 19:06:08,091 log 14208 5824 Bad Request: /api/v1/auth/register/
+WARNING 2026-04-07 19:06:08,091 basehttp 14208 5824 "POST /api/v1/auth/register/ HTTP/1.1" 400 8507
+INFO 2026-04-07 19:06:24,511 basehttp 14208 5824 "POST /api/v1/auth/register/ HTTP/1.1" 201 9121
+WARNING 2026-04-07 19:06:34,148 log 14208 5824 Bad Request: /api/v1/auth/register/
+WARNING 2026-04-07 19:06:34,161 basehttp 14208 5824 "POST /api/v1/auth/register/ HTTP/1.1" 400 8520
+WARNING 2026-04-07 19:06:56,839 log 14208 5824 Not Found: /api/
+WARNING 2026-04-07 19:06:56,839 basehttp 14208 5824 "GET /api/ HTTP/1.1" 404 3473
+INFO 2026-04-07 19:08:10,782 basehttp 14208 5824 "GET /api/docs/ HTTP/1.1" 200 4644
+INFO 2026-04-07 19:08:11,646 basehttp 14208 5824 "GET /api/schema/ HTTP/1.1" 200 18964
+WARNING 2026-04-07 19:08:43,068 log 14208 5824 Method Not Allowed: /api/v1/auth/register/
+WARNING 2026-04-07 19:08:43,076 basehttp 14208 5824 "GET /api/v1/auth/register/ HTTP/1.1" 405 8152
+INFO 2026-04-07 19:09:07,986 basehttp 14208 5824 "POST /api/v1/auth/register/ HTTP/1.1" 201 9126
+WARNING 2026-04-07 19:10:18,912 log 14208 5824 Bad Request: /api/v1/auth/register/
+WARNING 2026-04-07 19:10:18,955 basehttp 14208 5824 "POST /api/v1/auth/register/ HTTP/1.1" 400 8512
+INFO 2026-04-07 19:21:56,614 basehttp 14208 2188 code 400, message Bad request syntax ('\x16\x03\x01\x06À\x01\x00\x06¼\x03\x03=Ø\x181')
+ERROR 2026-04-07 19:21:56,620 basehttp 14208 2188 You're accessing the development server over HTTPS, but it only supports HTTP.
+INFO 2026-04-07 19:21:56,618 basehttp 14208 3928 code 400, message Bad request version ('\x02XZ+Ëu\x9d\x87`s\x8f¤mÎöË\x13\x80Q')
+ERROR 2026-04-07 19:21:56,636 basehttp 14208 3928 You're accessing the development server over HTTPS, but it only supports HTTP.
+INFO 2026-04-07 19:21:56,691 basehttp 14208 11072 code 400, message Bad request version ('úm\'"ú\x97¯Æ\x01¼Ø\x9fð\x80^ß)M')
+ERROR 2026-04-07 19:21:56,694 basehttp 14208 11072 You're accessing the development server over HTTPS, but it only supports HTTP.
+INFO 2026-04-07 19:21:56,694 basehttp 14208 15480 code 400, message Bad request version ('ÊÊ\x13\x01\x13\x02\x13\x03À+À/À,À0Ì©Ì¨À\x13À\x14\x00\x9c\x00\x9d\x00/\x005\x01\x00\x06S')
+ERROR 2026-04-07 19:21:56,696 basehttp 14208 15480 You're accessing the development server over HTTPS, but it only supports HTTP.
+INFO 2026-04-08 21:14:45,984 autoreload 1932 12108 Watching for file changes with StatReloader
+WARNING 2026-04-08 21:14:56,192 log 1932 2376 Not Found: /
+WARNING 2026-04-08 21:14:56,209 basehttp 1932 2376 "GET / HTTP/1.1" 404 3443
+WARNING 2026-04-08 21:14:56,396 log 1932 2376 Not Found: /favicon.ico
+WARNING 2026-04-08 21:14:56,432 basehttp 1932 2376 "GET /favicon.ico HTTP/1.1" 404 3494
+INFO 2026-04-08 21:15:06,749 basehttp 1932 2376 "GET /health HTTP/1.1" 301 0
+INFO 2026-04-08 21:15:06,903 basehttp 1932 11052 "GET /health/ HTTP/1.1" 200 5208
+INFO 2026-04-08 21:15:07,031 basehttp 1932 11052 "GET /static/rest_framework/css/bootstrap-tweaks.css HTTP/1.1" 304 0
+INFO 2026-04-08 21:15:07,035 basehttp 1932 4900 "GET /static/rest_framework/css/bootstrap.min.css HTTP/1.1" 304 0
+INFO 2026-04-08 21:15:07,093 basehttp 1932 11052 "GET /static/rest_framework/css/prettify.css HTTP/1.1" 304 0
+INFO 2026-04-08 21:15:07,094 basehttp 1932 4900 "GET /static/rest_framework/css/default.css HTTP/1.1" 304 0
+INFO 2026-04-08 21:15:07,215 basehttp 1932 11052 "GET /static/rest_framework/js/jquery-3.7.1.min.js HTTP/1.1" 304 0
+INFO 2026-04-08 21:15:07,217 basehttp 1932 4900 "GET /static/rest_framework/js/ajax-form.js HTTP/1.1" 304 0
+INFO 2026-04-08 21:15:07,279 basehttp 1932 4900 "GET /static/rest_framework/js/prettify-min.js HTTP/1.1" 304 0
+INFO 2026-04-08 21:15:07,285 basehttp 1932 11052 "GET /static/rest_framework/js/bootstrap.min.js HTTP/1.1" 304 0
+INFO 2026-04-08 21:15:07,342 basehttp 1932 4900 "GET /static/rest_framework/js/default.js HTTP/1.1" 304 0
+INFO 2026-04-08 21:15:07,366 basehttp 1932 11052 "GET /static/rest_framework/js/load-ajax-form.js HTTP/1.1" 304 0
+INFO 2026-04-08 21:15:07,383 basehttp 1932 11136 "GET /static/rest_framework/js/csrf.js HTTP/1.1" 304 0
+INFO 2026-04-08 21:15:07,403 basehttp 1932 1876 "GET /static/rest_framework/img/grid.png HTTP/1.1" 304 0
+WARNING 2026-04-08 21:15:24,578 log 1932 1876 Not Found: /
+WARNING 2026-04-08 21:15:24,581 basehttp 1932 1876 "GET / HTTP/1.1" 404 3443
+WARNING 2026-04-08 21:15:38,803 log 1932 1876 Not Found: /api/v1/auth
+WARNING 2026-04-08 21:15:38,804 basehttp 1932 1876 "GET /api/v1/auth HTTP/1.1" 404 3494
+INFO 2026-04-08 21:15:52,671 basehttp 1932 1876 "GET /api/v1/auth/register HTTP/1.1" 301 0
+WARNING 2026-04-08 21:15:53,086 log 1932 11136 Method Not Allowed: /api/v1/auth/register/
+WARNING 2026-04-08 21:15:53,088 basehttp 1932 11136 "GET /api/v1/auth/register/ HTTP/1.1" 405 8152
+WARNING 2026-04-08 21:16:14,776 log 1932 11136 Bad Request: /api/v1/auth/register/
+WARNING 2026-04-08 21:16:14,797 basehttp 1932 11136 "POST /api/v1/auth/register/ HTTP/1.1" 400 8333
+INFO 2026-04-08 21:16:47,271 basehttp 1932 11136 "POST /api/v1/auth/register/ HTTP/1.1" 201 9134
+WARNING 2026-04-08 21:22:52,576 log 1932 1952 Method Not Allowed: /api/v1/auth/login/
+WARNING 2026-04-08 21:22:52,586 basehttp 1932 1952 "GET /api/v1/auth/login/ HTTP/1.1" 405 7432
+INFO 2026-04-08 21:22:52,731 basehttp 1932 1952 "GET /static/rest_framework/css/bootstrap.min.css HTTP/1.1" 304 0
+INFO 2026-04-08 21:22:52,737 basehttp 1932 1636 "GET /static/rest_framework/css/bootstrap-tweaks.css HTTP/1.1" 304 0
+INFO 2026-04-08 21:22:52,816 basehttp 1932 1952 "GET /static/rest_framework/css/prettify.css HTTP/1.1" 304 0
+INFO 2026-04-08 21:22:52,825 basehttp 1932 1636 "GET /static/rest_framework/css/default.css HTTP/1.1" 304 0
+INFO 2026-04-08 21:22:52,854 basehttp 1932 7628 "GET /static/rest_framework/js/jquery-3.7.1.min.js HTTP/1.1" 304 0
+INFO 2026-04-08 21:22:52,928 basehttp 1932 1952 "GET /static/rest_framework/js/ajax-form.js HTTP/1.1" 304 0
+INFO 2026-04-08 21:22:53,010 basehttp 1932 7628 "GET /static/rest_framework/js/bootstrap.min.js HTTP/1.1" 304 0
+INFO 2026-04-08 21:22:53,011 basehttp 1932 1636 "GET /static/rest_framework/js/csrf.js HTTP/1.1" 304 0
+INFO 2026-04-08 21:22:53,073 basehttp 1932 1952 "GET /static/rest_framework/js/prettify-min.js HTTP/1.1" 304 0
+INFO 2026-04-08 21:22:53,136 basehttp 1932 7628 "GET /static/rest_framework/js/default.js HTTP/1.1" 304 0
+INFO 2026-04-08 21:22:53,172 basehttp 1932 1636 "GET /static/rest_framework/js/load-ajax-form.js HTTP/1.1" 304 0
+INFO 2026-04-08 21:22:53,222 basehttp 1932 7892 "GET /static/rest_framework/img/grid.png HTTP/1.1" 304 0
+WARNING 2026-04-08 21:23:09,206 log 1932 7892 Bad Request: /api/v1/auth/login/
+WARNING 2026-04-08 21:23:09,221 basehttp 1932 7892 "POST /api/v1/auth/login/ HTTP/1.1" 400 7426
+WARNING 2026-04-08 21:23:21,470 log 1932 7892 Not Found: /api/v1/auth/regoster/
+WARNING 2026-04-08 21:23:21,492 basehttp 1932 7892 "GET /api/v1/auth/regoster/ HTTP/1.1" 404 4445
+WARNING 2026-04-08 21:23:26,006 log 1932 7892 Method Not Allowed: /api/v1/auth/register/
+WARNING 2026-04-08 21:23:26,046 basehttp 1932 7892 "GET /api/v1/auth/register/ HTTP/1.1" 405 8152
+WARNING 2026-04-08 21:23:52,271 log 1932 7892 Bad Request: /api/v1/auth/register/
+WARNING 2026-04-08 21:23:52,291 basehttp 1932 7892 "POST /api/v1/auth/register/ HTTP/1.1" 400 8349
+INFO 2026-04-08 21:24:01,505 basehttp 1932 7892 "POST /api/v1/auth/register/ HTTP/1.1" 201 9157
+WARNING 2026-04-08 21:24:06,893 log 1932 7892 Method Not Allowed: /api/v1/auth/login/
+WARNING 2026-04-08 21:24:06,913 basehttp 1932 7892 "GET /api/v1/auth/login/ HTTP/1.1" 405 7432
+INFO 2026-04-08 21:24:22,174 basehttp 1932 7892 "POST /api/v1/auth/login/ HTTP/1.1" 200 8432
+WARNING 2026-04-08 21:25:14,659 log 1932 7892 Not Found: /
+WARNING 2026-04-08 21:25:14,662 basehttp 1932 7892 "GET / HTTP/1.1" 404 3443
+INFO 2026-04-08 21:25:25,130 basehttp 1932 7892 "GET /api/docs HTTP/1.1" 301 0
+INFO 2026-04-08 21:25:25,193 basehttp 1932 1636 "GET /api/docs/ HTTP/1.1" 200 4644
+INFO 2026-04-08 21:25:37,431 basehttp 1932 1636 "GET /api/schema/ HTTP/1.1" 200 18964
+INFO 2026-04-12 10:19:22,567 autoreload 14624 8008 Watching for file changes with StatReloader
+WARNING 2026-04-12 10:19:54,176 log 14624 8848 Not Found: /
+WARNING 2026-04-12 10:19:54,178 basehttp 14624 8848 "GET / HTTP/1.1" 404 3443
+WARNING 2026-04-12 10:19:54,333 log 14624 8848 Not Found: /favicon.ico
+WARNING 2026-04-12 10:19:54,340 basehttp 14624 8848 "GET /favicon.ico HTTP/1.1" 404 3494
+WARNING 2026-04-12 10:20:16,128 log 14624 8848 Not Found: /api/v1/meta
+WARNING 2026-04-12 10:20:16,133 basehttp 14624 8848 "GET /api/v1/meta HTTP/1.1" 404 3494
+WARNING 2026-04-12 10:20:33,387 log 14624 8848 Not Found: /api/v1/meta/
+WARNING 2026-04-12 10:20:33,390 basehttp 14624 8848 "GET /api/v1/meta/ HTTP/1.1" 404 3615
+INFO 2026-04-12 10:20:48,535 basehttp 14624 8848 "GET /api/v1/meta/modules/ HTTP/1.1" 200 6492
+INFO 2026-04-12 10:20:48,833 basehttp 14624 7428 "GET /static/rest_framework/css/prettify.css HTTP/1.1" 200 817
+INFO 2026-04-12 10:20:48,836 basehttp 14624 14192 "GET /static/rest_framework/css/bootstrap-tweaks.css HTTP/1.1" 200 3426
+INFO 2026-04-12 10:20:48,838 basehttp 14624 8848 "GET /static/rest_framework/css/bootstrap.min.css HTTP/1.1" 200 121457
+INFO 2026-04-12 10:20:48,895 basehttp 14624 8848 "GET /static/rest_framework/js/ajax-form.js HTTP/1.1" 200 3796
+INFO 2026-04-12 10:20:48,904 basehttp 14624 7428 "GET /static/rest_framework/css/default.css HTTP/1.1" 200 1152
+INFO 2026-04-12 10:20:48,906 basehttp 14624 14192 "GET /static/rest_framework/js/jquery-3.7.1.min.js HTTP/1.1" 200 87533
+INFO 2026-04-12 10:20:49,068 basehttp 14624 14120 "GET /static/rest_framework/js/prettify-min.js HTTP/1.1" 200 13632
+INFO 2026-04-12 10:20:49,070 basehttp 14624 8848 "GET /static/rest_framework/js/csrf.js HTTP/1.1" 200 1793
+INFO 2026-04-12 10:20:49,072 basehttp 14624 7428 "GET /static/rest_framework/js/bootstrap.min.js HTTP/1.1" 200 39680
+INFO 2026-04-12 10:20:49,083 basehttp 14624 13492 "GET /static/rest_framework/js/default.js HTTP/1.1" 200 1268
+INFO 2026-04-12 10:20:49,122 basehttp 14624 14192 "GET /static/rest_framework/img/grid.png HTTP/1.1" 200 1458
+INFO 2026-04-12 10:20:49,156 basehttp 14624 3144 "GET /static/rest_framework/js/load-ajax-form.js HTTP/1.1" 200 59
+INFO 2026-04-12 11:14:55,719 autoreload 1684 10112 Watching for file changes with StatReloader
+INFO 2026-04-12 11:15:21,919 autoreload 1060 12860 Watching for file changes with StatReloader
+WARNING 2026-04-12 11:15:31,529 log 1060 10444 Not Found: /
+WARNING 2026-04-12 11:15:31,662 basehttp 1060 10444 "GET / HTTP/1.1" 404 3599
+WARNING 2026-04-12 11:15:47,546 log 1060 10444 Not Found: /
+WARNING 2026-04-12 11:15:47,546 basehttp 1060 10444 "GET / HTTP/1.1" 404 3599
+INFO 2026-04-12 20:32:55,295 autoreload 18352 8848 Watching for file changes with StatReloader
+WARNING 2026-04-12 20:33:25,692 log 18352 19288 Not Found: /
+WARNING 2026-04-12 20:33:25,696 basehttp 18352 19288 "GET / HTTP/1.1" 404 3599
+WARNING 2026-04-12 20:33:26,045 log 18352 19288 Not Found: /
+WARNING 2026-04-12 20:33:26,047 basehttp 18352 19288 "GET / HTTP/1.1" 404 3599
+WARNING 2026-04-12 20:33:39,292 log 18352 19288 Not Found: /api/v1/promo/
+WARNING 2026-04-12 20:33:39,294 basehttp 18352 19288 "GET /api/v1/promo/ HTTP/1.1" 404 4056
+WARNING 2026-04-12 20:33:55,844 log 18352 19288 Unauthorized: /api/v1/promo/activate/
+WARNING 2026-04-12 20:33:55,846 basehttp 18352 19288 "GET /api/v1/promo/activate/ HTTP/1.1" 401 3708
+WARNING 2026-04-12 20:34:03,863 log 18352 19288 Not Found: /api/v1/promo/
+WARNING 2026-04-12 20:34:03,863 basehttp 18352 19288 "GET /api/v1/promo/ HTTP/1.1" 404 4056
+INFO 2026-04-12 20:34:13,157 basehttp 18352 19288 "GET /api/v1/promo/packages/ HTTP/1.1" 200 6375
+INFO 2026-04-13 20:06:17,763 autoreload 11800 14000 Watching for file changes with StatReloader
+ERROR 2026-04-13 20:13:29,549 log 11800 10200 Internal Server Error: /api/v1/auth/telegram-auth/
+ERROR 2026-04-13 20:13:29,551 basehttp 11800 10200 "POST /api/v1/auth/telegram-auth/ HTTP/1.1" 500 58
+WARNING 2026-04-13 20:13:45,040 log 11800 11016 Method Not Allowed: /api/v1/auth/telegram-auth/
+WARNING 2026-04-13 20:13:45,043 basehttp 11800 11016 "GET /api/v1/auth/telegram-auth/ HTTP/1.1" 405 5643
+INFO 2026-04-13 20:13:45,579 basehttp 11800 11600 "GET /static/rest_framework/css/bootstrap-tweaks.css HTTP/1.1" 200 3426
+INFO 2026-04-13 20:13:45,580 basehttp 11800 11016 "GET /static/rest_framework/css/bootstrap.min.css HTTP/1.1" 200 121457
+INFO 2026-04-13 20:13:45,581 basehttp 11800 14232 "GET /static/rest_framework/css/default.css HTTP/1.1" 200 1152
+INFO 2026-04-13 20:13:45,583 basehttp 11800 9204 "GET /static/rest_framework/js/ajax-form.js HTTP/1.1" 200 3796
+INFO 2026-04-13 20:13:45,588 basehttp 11800 4764 "GET /static/rest_framework/css/prettify.css HTTP/1.1" 200 817
+INFO 2026-04-13 20:13:45,590 basehttp 11800 5100 "GET /static/rest_framework/js/jquery-3.7.1.min.js HTTP/1.1" 200 87533
+INFO 2026-04-13 20:13:45,620 basehttp 11800 11600 "GET /static/rest_framework/js/csrf.js HTTP/1.1" 200 1793
+INFO 2026-04-13 20:13:45,628 basehttp 11800 9204 "GET /static/rest_framework/js/prettify-min.js HTTP/1.1" 200 13632
+INFO 2026-04-13 20:13:45,684 basehttp 11800 14232 "GET /static/rest_framework/js/bootstrap.min.js HTTP/1.1" 200 39680
+INFO 2026-04-13 20:13:45,686 basehttp 11800 11016 "GET /static/rest_framework/js/load-ajax-form.js HTTP/1.1" 200 59
+INFO 2026-04-13 20:13:45,693 basehttp 11800 4764 "GET /static/rest_framework/js/default.js HTTP/1.1" 200 1268
+INFO 2026-04-13 20:13:45,836 basehttp 11800 9204 "GET /static/rest_framework/img/grid.png HTTP/1.1" 200 1458
+WARNING 2026-04-13 20:13:45,939 log 11800 9204 Not Found: /favicon.ico
+WARNING 2026-04-13 20:13:45,949 basehttp 11800 9204 "GET /favicon.ico HTTP/1.1" 404 3650
+INFO 2026-04-13 20:25:45,480 autoreload 10952 4280 Watching for file changes with StatReloader
+INFO 2026-04-13 20:25:55,089 basehttp 10952 1044 "POST /api/v1/auth/telegram-auth/ HTTP/1.1" 201 707
+INFO 2026-04-13 20:26:45,360 basehttp 10952 12500 code 400, message Bad request version ('$')
+ERROR 2026-04-13 20:26:45,361 basehttp 10952 12500 You're accessing the development server over HTTPS, but it only supports HTTP.
+INFO 2026-04-13 20:26:45,376 basehttp 10952 2668 code 400, message Bad request version ('ª\x7f:_\x91ádþ\x83)lÈ\x91i#\x89\x1a¨7')
+ERROR 2026-04-13 20:26:45,409 basehttp 10952 2668 You're accessing the development server over HTTPS, but it only supports HTTP.
+INFO 2026-04-13 20:26:55,911 basehttp 10952 6600 "GET /admin/ HTTP/1.1" 302 0
+INFO 2026-04-13 20:26:55,996 basehttp 10952 6600 "GET /admin/login/?next=/admin/ HTTP/1.1" 200 4164
+INFO 2026-04-13 20:26:56,248 basehttp 10952 6016 "GET /static/admin/js/theme.js HTTP/1.1" 200 1653
+INFO 2026-04-13 20:26:56,248 basehttp 10952 10800 "GET /static/admin/css/dark_mode.css HTTP/1.1" 200 2804
+INFO 2026-04-13 20:26:56,252 basehttp 10952 5648 "GET /static/admin/css/nav_sidebar.css HTTP/1.1" 200 2810
+INFO 2026-04-13 20:26:56,300 basehttp 10952 6600 "GET /static/admin/css/base.css HTTP/1.1" 200 22092
+INFO 2026-04-13 20:26:56,308 basehttp 10952 15080 "GET /static/admin/css/login.css HTTP/1.1" 200 951
+INFO 2026-04-13 20:26:56,334 basehttp 10952 15080 "GET /static/admin/js/nav_sidebar.js HTTP/1.1" 200 3063
+INFO 2026-04-13 20:26:56,365 basehttp 10952 6504 "GET /static/admin/css/responsive.css HTTP/1.1" 200 17972
+INFO 2026-04-13 20:26:59,420 basehttp 10952 6504 "POST /admin/login/?next=/admin/ HTTP/1.1" 302 0
+INFO 2026-04-13 20:26:59,542 basehttp 10952 6504 "GET /admin/ HTTP/1.1" 200 9874
+INFO 2026-04-13 20:26:59,616 basehttp 10952 6504 "GET /static/admin/css/dashboard.css HTTP/1.1" 200 441
+INFO 2026-04-13 20:26:59,645 basehttp 10952 6504 "GET /static/admin/img/icon-addlink.svg HTTP/1.1" 200 331
+INFO 2026-04-13 20:26:59,649 basehttp 10952 15080 "GET /static/admin/img/icon-changelink.svg HTTP/1.1" 200 380
+INFO 2026-04-13 20:27:07,287 basehttp 10952 15080 "GET /admin/promo/promocode/ HTTP/1.1" 200 12199
+INFO 2026-04-13 20:27:07,360 basehttp 10952 15080 "GET /static/admin/css/changelists.css HTTP/1.1" 200 6878
+INFO 2026-04-13 20:27:07,362 basehttp 10952 10800 "GET /static/admin/js/actions.js HTTP/1.1" 200 8076
+INFO 2026-04-13 20:27:07,369 basehttp 10952 6600 "GET /static/admin/js/jquery.init.js HTTP/1.1" 200 347
+INFO 2026-04-13 20:27:07,378 basehttp 10952 5648 "GET /static/admin/js/core.js HTTP/1.1" 200 6208
+INFO 2026-04-13 20:27:07,382 basehttp 10952 6016 "GET /static/admin/js/admin/RelatedObjectLookups.js HTTP/1.1" 200 9097
+INFO 2026-04-13 20:27:07,433 basehttp 10952 15080 "GET /static/admin/js/urlify.js HTTP/1.1" 200 7887
+INFO 2026-04-13 20:27:07,440 basehttp 10952 6504 "GET /static/admin/js/vendor/jquery/jquery.js HTTP/1.1" 200 285314
+INFO 2026-04-13 20:27:07,485 basehttp 10952 5648 "GET /static/admin/img/search.svg HTTP/1.1" 200 458
+INFO 2026-04-13 20:27:07,501 basehttp 10952 10800 "GET /static/admin/js/prepopulate.js HTTP/1.1" 200 1531
+INFO 2026-04-13 20:27:07,529 basehttp 10952 6600 "GET /static/admin/js/vendor/xregexp/xregexp.js HTTP/1.1" 200 325171
+INFO 2026-04-13 20:27:07,645 basehttp 10952 6600 "GET /static/admin/js/filters.js HTTP/1.1" 200 978
+INFO 2026-04-13 20:27:07,749 basehttp 10952 6016 "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2026-04-13 20:27:07,930 basehttp 10952 6600 "GET /static/admin/img/icon-viewlink.svg HTTP/1.1" 200 581
+INFO 2026-04-13 20:27:07,930 basehttp 10952 6016 "GET /static/admin/img/tooltag-add.svg HTTP/1.1" 200 331
+INFO 2026-04-13 20:27:12,832 basehttp 10952 6600 "GET /admin/token_blacklist/blacklistedtoken/ HTTP/1.1" 200 10625
+INFO 2026-04-13 20:27:13,012 basehttp 10952 6600 "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2026-04-13 20:27:14,699 basehttp 10952 6600 "GET /admin/token_blacklist/outstandingtoken/ HTTP/1.1" 200 13210
+INFO 2026-04-13 20:27:14,832 basehttp 10952 6600 "GET /static/admin/img/sorting-icons.svg HTTP/1.1" 200 1097
+INFO 2026-04-13 20:27:17,022 basehttp 10952 6600 "GET /admin/promo/promocode/add/ HTTP/1.1" 200 15194
+INFO 2026-04-13 20:27:17,077 basehttp 10952 6016 "GET /static/admin/js/prepopulate_init.js HTTP/1.1" 200 586
+INFO 2026-04-13 20:27:17,085 basehttp 10952 6600 "GET /static/admin/css/forms.css HTTP/1.1" 200 8794
+INFO 2026-04-13 20:27:17,147 basehttp 10952 6600 "GET /static/admin/js/change_form.js HTTP/1.1" 200 606
+INFO 2026-04-13 20:27:17,161 basehttp 10952 6016 "GET /static/admin/css/widgets.css HTTP/1.1" 200 11564
+INFO 2026-04-13 20:27:17,217 basehttp 10952 5648 "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2026-04-13 20:27:36,842 basehttp 10952 5648 "POST /admin/promo/promocode/add/ HTTP/1.1" 302 0
+INFO 2026-04-13 20:27:37,013 basehttp 10952 5648 "GET /admin/promo/promocode/ HTTP/1.1" 200 15668
+INFO 2026-04-13 20:27:37,081 basehttp 10952 5648 "GET /static/admin/img/icon-yes.svg HTTP/1.1" 200 436
+INFO 2026-04-13 20:27:37,270 basehttp 10952 6016 "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2026-04-13 20:27:49,234 basehttp 10952 6016 "GET /admin/auth/user/ HTTP/1.1" 200 17330
+INFO 2026-04-13 20:27:49,306 basehttp 10952 6016 "GET /static/admin/img/icon-no.svg HTTP/1.1" 200 560
+INFO 2026-04-13 20:27:49,432 basehttp 10952 5648 "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2026-04-13 20:27:53,427 basehttp 10952 5648 "GET /admin/auth/user/8/change/ HTTP/1.1" 200 28007
+INFO 2026-04-13 20:27:53,481 basehttp 10952 10800 "GET /static/admin/js/SelectFilter2.js HTTP/1.1" 200 15502
+INFO 2026-04-13 20:27:53,482 basehttp 10952 6600 "GET /static/admin/js/SelectBox.js HTTP/1.1" 200 4530
+INFO 2026-04-13 20:27:53,495 basehttp 10952 6016 "GET /static/admin/js/admin/DateTimeShortcuts.js HTTP/1.1" 200 19319
+INFO 2026-04-13 20:27:53,538 basehttp 10952 5648 "GET /static/admin/js/calendar.js HTTP/1.1" 200 9141
+INFO 2026-04-13 20:27:53,641 basehttp 10952 6504 "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2026-04-13 20:27:53,829 basehttp 10952 5648 "GET /static/admin/img/selector-icons.svg HTTP/1.1" 200 3291
+INFO 2026-04-13 20:27:53,834 basehttp 10952 10800 "GET /static/admin/img/icon-clock.svg HTTP/1.1" 200 677
+INFO 2026-04-13 20:27:53,835 basehttp 10952 6016 "GET /static/admin/img/icon-unknown-alt.svg HTTP/1.1" 200 655
+INFO 2026-04-13 20:27:53,835 basehttp 10952 6600 "GET /static/admin/img/icon-calendar.svg HTTP/1.1" 200 1086
+INFO 2026-04-13 20:27:53,837 basehttp 10952 6504 "GET /static/admin/img/icon-unknown.svg HTTP/1.1" 200 655
+INFO 2026-04-13 20:28:01,615 basehttp 10952 6504 "GET /admin/ai_requests/generationrequest/ HTTP/1.1" 200 11794
+INFO 2026-04-13 20:28:01,765 basehttp 10952 6504 "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2026-04-13 20:40:17,066 basehttp 10952 15104 "POST /api/v1/auth/telegram-auth/ HTTP/1.1" 201 695
+INFO 2026-04-13 20:40:21,442 basehttp 10952 11640 "POST /api/v1/auth/telegram-auth/ HTTP/1.1" 200 695
+INFO 2026-04-13 20:40:21,901 basehttp 10952 10008 "POST /api/v1/auth/telegram-auth/ HTTP/1.1" 200 695
+INFO 2026-04-13 20:40:38,341 basehttp 10952 14828 "GET /admin/ai_requests/generationrequest/ HTTP/1.1" 200 11794
+INFO 2026-04-13 20:40:38,533 basehttp 10952 14828 "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2026-04-13 20:40:41,142 basehttp 10952 14828 "GET /admin/auth/user/ HTTP/1.1" 200 17787
+INFO 2026-04-13 20:40:41,334 basehttp 10952 14828 "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2026-04-13 20:54:39,456 basehttp 10952 6836 "POST /api/v1/auth/telegram-auth/ HTTP/1.1" 200 707
+INFO 2026-04-13 21:12:54,607 basehttp 10952 14072 "GET /admin/auth/user/ HTTP/1.1" 200 17787
