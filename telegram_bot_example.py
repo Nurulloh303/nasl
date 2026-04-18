@@ -69,9 +69,13 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
         if args and args[0] == "pay":
             await send_payment_info(update.message)
             
+    except requests.exceptions.ConnectionError:
+        await update.message.reply_text("❌ Backendga ulanib bo'lmadi. Server o'chiq yoki IP noto'g'ri.")
+    except requests.exceptions.HTTPError as e:
+        await update.message.reply_text(f"❌ Backend xato qaytardi (HTTP {e.response.status_code}).")
     except Exception as e:
-        await update.message.reply_text(f"Backend bilan bog'lanishda xato yuz berdi. Iltimos, birozdan so'ng qayta urinib ko'ring.")
-        print(f"ERROR: {e}")
+        await update.message.reply_text(f"❌ Kutilmagan xatolik: {str(e)}")
+        print(f"DEBUG ERROR: {e}")
 
 async def button_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
     query = update.callback_query
