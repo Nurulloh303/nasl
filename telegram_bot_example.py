@@ -1,24 +1,28 @@
-"""Minimal Telegram bot example for sending users to backend telegram-auth endpoint.
-Requirements:
-    pip install python-telegram-bot requests python-dotenv
-"""
+"""Minimal Telegram bot example for sending users to backend telegram-auth endpoint."""
 
 import os
 import requests
-from telegram import Update
-from telegram.ext import ApplicationBuilder, CommandHandler, ContextTypes
-# 1. Kutubxonani import qilamiz
+from telegram import Update, InlineKeyboardMarkup, InlineKeyboardButton
+from telegram.ext import ApplicationBuilder, CommandHandler, CallbackQueryHandler, ContextTypes
 from dotenv import load_dotenv
 
-# 2. .env faylini yuklaymiz
+# .env faylini yuklaymiz
 load_dotenv()
 
-# 3. O'zgaruvchilarni endi os.getenv orqali olish xavfsiz
 BASE_URL = os.getenv("BACKEND_HOST", "http://127.0.0.1:8000").rstrip("/")
 BACKEND_URL = f"{BASE_URL}/api/v1/auth/telegram-auth/"
 BOT_TOKEN = os.getenv("BOT_TOKEN")
-# Admin ID'lar .env dan keladi, agar yo'q bo'lsa default qiymatlar
 ADMIN_TELEGRAM_ID = os.getenv("ADMIN_TELEGRAM_ID", "6895505562, 2132747990")
+
+async def send_payment_info(bot_instance_or_message):
+    text = (
+        "💳 <b>Hisobni to'ldirish uchun to'lov ma'lumotlari:</b>\n\n"
+        "Karta raqam: <code>4916 9903 5071 4777</code>\n"
+        "Karta egasi: JORAYEV A\n\n"
+        "<i>To'lovni amalga oshirgach, chekni (skrinshotni) quyidagi adminga yuboring, admin sizning hisobingizni to'ldirib beradi:</i>\n"
+        "👉 @onlyforwardarx"
+    )
+    await bot_instance_or_message.reply_text(text, parse_mode="HTML")
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     user = update.effective_user
@@ -29,18 +33,44 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
         "last_name": user.last_name or "",
         "full_name": f"{user.first_name or ''} {user.last_name or ''}".strip(),
     }
+    
     try:
         response = requests.post(BACKEND_URL, json=payload, timeout=15)
         response.raise_for_status()
         data = response.json()
-        await update.message.reply_text(
-            "Ro'yxatdan o'tdingiz. Backend token qaytardi.\n"
-            f"Username: {data['user']['username']}\n"
-            f"Balans: {data['user']['credits']} token"
-        )
+        
+        args = context.args
+        deep_link = args[0] if args else None
+
+        # Agar saytdan "to'lov qilish" orqali "?start=pay" link kelgan bo'lsa
+        if deep_link == "pay":
+            await update.message.reply_text(
+                f"👋 Muvaffaqiyatli ro'yxatdan o'tdingiz!\n"
+                f"Mavjud balansingiz: {data['user']['credits']} token.\n"
+            )
+            await send_payment_info(update.message)
+        else:
+            # Agar oddiy /start yoki "?start=register" kelgan bo'lsa
+            keyboard = [[InlineKeyboardButton("💳 To'lov qilish", callback_data="pay_now")]]
+            reply_markup = InlineKeyboardMarkup(keyboard)
+            
+            await update.message.reply_text(
+                f"👋 Muvaffaqiyatli ro'yxatdan o'tdingiz!\n\n"
+                f"Sizning ID (username): {data['user']['username']}\n"
+                f"Joriy balansingiz: {data['user']['credits']} token.\n\n"
+                "Quyidagi tugma orqali har doim hisobingizni to'ldirishingiz mumkin:",
+                reply_markup=reply_markup
+            )
+            
     except Exception as e:
         await update.message.reply_text(f"Backend bilan bog'lanishda xato: {e}")
 
+async def button_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    query = update.callback_query
+    await query.answer()
+    
+    if query.data == "pay_now":
+        await send_payment_info(query.message)
 
 async def promo(update: Update, context: ContextTypes.DEFAULT_TYPE):
     user = update.effective_user
@@ -77,19 +107,18 @@ async def promo(update: Update, context: ContextTypes.DEFAULT_TYPE):
     except Exception as e:
         await update.message.reply_text(f"So'rovda xatolik: {e}")
 
-
 def main():
     if not BOT_TOKEN:
-        # Endi bu xato chiqmaydi, chunki load_dotenv() tepada chaqirildi
         raise RuntimeError("BOT_TOKEN environment variable o'rnatilmagan")
     
     app = ApplicationBuilder().token(BOT_TOKEN).build()
+    
     app.add_handler(CommandHandler("start", start))
     app.add_handler(CommandHandler("promo", promo))
+    app.add_handler(CallbackQueryHandler(button_callback))  # Inline buttonga handler
     
     print("Bot ishga tushdi...")
     app.run_polling()
-
 
 if __name__ == "__main__":
     main()
