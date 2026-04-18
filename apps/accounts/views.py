@@ -1,5 +1,6 @@
 from django.contrib.auth import get_user_model
 from django.db import transaction as db_transaction
+from .models import Profile
 from rest_framework import generics, status
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
@@ -89,14 +90,14 @@ class TelegramAuthView(APIView):
             first_name=first_name,
             last_name=last_name,
         )
-        profile = user.profile
+        # Profilni olamiz (yoki yaratamiz, agar signal ishlamay qolgan bo'lsa)
+        profile, created = Profile.objects.get_or_create(user=user)
         profile.telegram_id = telegram_id
         profile.full_name = full_name
         if avatar_url:
             profile.avatar_url = avatar_url
-            profile.save(update_fields=["telegram_id", "full_name", "avatar_url"])
-        else:
-            profile.save(update_fields=["telegram_id", "full_name"])
+        
+        profile.save()
 
         response_data = TokenPairSerializer.for_user(user)
         response_data["initial_password"] = initial_password
