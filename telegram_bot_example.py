@@ -39,31 +39,39 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
         response.raise_for_status()
         data = response.json()
         
-        args = context.args
-        deep_link = args[0] if args else None
+        # Tugma yaratish (har doim chiqadi)
+        keyboard = [[InlineKeyboardButton("💳 To'lov qilish", callback_data="pay_now")]]
+        reply_markup = InlineKeyboardMarkup(keyboard)
 
-        # Agar saytdan "to'lov qilish" orqali "?start=pay" link kelgan bo'lsa
-        if deep_link == "pay":
-            await update.message.reply_text(
-                f"👋 Muvaffaqiyatli ro'yxatdan o'tdingiz!\n"
-                f"Mavjud balansingiz: {data['user']['credits']} token.\n"
-            )
-            await send_payment_info(update.message)
+        msg = f"👋 Assalomu alaykum, {user.first_name}!\n\n"
+        msg += f"Siz muvaffaqiyatli ro'yxatdan o'tdingiz.\n\n"
+        msg += f"🌐 <b>Saytga kirish uchun ma'lumotlaringiz:</b>\n"
+        msg += f"Login: <code>{data['user']['username']}</code>\n"
+        
+        # Agar yangi ro'yxatdan o'tgan bo'lsa, parolni ham chiqaramiz
+        if "initial_password" in data:
+            msg += f"Parol: <code>{data['initial_password']}</code>\n"
+            msg += f"\n<i>⚠️ Xavfsizlik uchun saytga kirganingizdan so'ng parolni o'zgartirib olishingizni tavsiya qilamiz.</i>\n\n"
         else:
-            # Agar oddiy /start yoki "?start=register" kelgan bo'lsa
-            keyboard = [[InlineKeyboardButton("💳 To'lov qilish", callback_data="pay_now")]]
-            reply_markup = InlineKeyboardMarkup(keyboard)
-            
-            await update.message.reply_text(
-                f"👋 Muvaffaqiyatli ro'yxatdan o'tdingiz!\n\n"
-                f"Sizning ID (username): {data['user']['username']}\n"
-                f"Joriy balansingiz: {data['user']['credits']} token.\n\n"
-                "Quyidagi tugma orqali har doim hisobingizni to'ldirishingiz mumkin:",
-                reply_markup=reply_markup
-            )
+            msg += f"Parol: <i>(Siz avvalroq ro'yxatdan o'tgansiz)</i>\n\n"
+
+        msg += f"💰 Balansingiz: <b>{data['user']['credits']} token</b>.\n\n"
+        msg += "Hisobingizni to'ldirish uchun quyidagi tugmani bosing:"
+
+        await update.message.reply_text(
+            msg,
+            reply_markup=reply_markup,
+            parse_mode="HTML"
+        )
+        
+        # Agar saytdan "to'lov qilish" orqali "?start=pay" link kelgan bo'lsa
+        args = context.args
+        if args and args[0] == "pay":
+            await send_payment_info(update.message)
             
     except Exception as e:
-        await update.message.reply_text(f"Backend bilan bog'lanishda xato: {e}")
+        await update.message.reply_text(f"Backend bilan bog'lanishda xato yuz berdi. Iltimos, birozdan so'ng qayta urinib ko'ring.")
+        print(f"ERROR: {e}")
 
 async def button_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
     query = update.callback_query

@@ -81,9 +81,11 @@ class TelegramAuthView(APIView):
             username_candidate = f"{username_base}_{counter}"
             counter += 1
 
+        # Yangi foydalanuvchi uchun tasodifiy parol yaratamiz
+        initial_password = get_random_string(length=10)
         user = User.objects.create_user(
             username=username_candidate,
-            password=get_random_string(length=12),  # Mana shu yer o'zgardi
+            password=initial_password,
             first_name=first_name,
             last_name=last_name,
         )
@@ -96,7 +98,9 @@ class TelegramAuthView(APIView):
         else:
             profile.save(update_fields=["telegram_id", "full_name"])
 
-        return Response(TokenPairSerializer.for_user(user), status=status.HTTP_201_CREATED)
+        response_data = TokenPairSerializer.for_user(user)
+        response_data["initial_password"] = initial_password
+        return Response(response_data, status=status.HTTP_201_CREATED)
 
 
 class MeView(generics.RetrieveAPIView):
