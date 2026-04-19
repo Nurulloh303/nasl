@@ -101,11 +101,14 @@ class MyGenerationDetailView(APIView):
 @permission_classes([IsAuthenticated])
 def generate_image_view(request):
     """
-    KUCHAYTIRILGAN (TANK) PROXY VIEW.
+    KUCHAYTIRILGAN (TANK) PROXY VIEW — Gemini 2.5 Flash Image.
     1. Faqat ro'yxatdan o'tganlar uchun.
     2. Foydalanuvchi balansini tekshiradi va ayiradi.
-    3. Google API bilan bog'lanadi.
+    3. Google Gemini API (generateContent) bilan bog'lanadi.
     4. Har bir so'rovni bazaga qayd qilib boradi.
+
+    ESLATMA: imagen-3.0-generate-001 deprecated bo'lgani uchun
+    gemini-2.5-flash-image modeliga o'tildi.
     """
     user = request.user
     profile = user.profile
@@ -118,7 +121,7 @@ def generate_image_view(request):
     # 1. Balansni tekshirish va band qilish (Reservation)
     token_cost = settings.GENERATION_TOKEN_COST
     reservation = profile.reserve_generation(token_cost)
-    
+
     if reservation["charged_tokens"] == 0 and not reservation["used_free_generation"]:
         return Response({
             "error": "Token yetarli emas yoki limit tugagan. Iltimos, balansni to'ldiring.",
@@ -129,7 +132,7 @@ def generate_image_view(request):
     # 2. Bazada so'rovni yaratish (Logging uchun)
     gen_request = GenerationRequest.objects.create(
         user=user,
-        module="imagen-3-proxy",
+        module="gemini-image-proxy",
         prompt=prompt,
         payload={"ratio": ratio},
         credits_charged=reservation["charged_tokens"],
@@ -139,44 +142,91 @@ def generate_image_view(request):
     )
 
     api_key = settings.GEMINI_API_KEY
-    google_url = f"https://generativelanguage.googleapis.com/v1beta/models/imagen-3.0-generate-001:predict?key={api_key}"
-    
-    # Payloadni Google Imagen 3 talabiga ko'ra shakllantiramiz
+
+    # settings.py dagi GEMINI_IMAGE_MODEL ishlatiladi (.env da: gemini-3.1-pro-preview)
+    model_name = settings.GEMINI_IMAGE_MODEL
+    google_url = (
+        f"https://generativelanguage.googleapis.com/v1beta/"
+        f"models/{model_name}:generateContent?key={api_key}"
+    )
+
+    # Promptga aspect ratio haqida ko'rsatma qo'shamiz
+    full_prompt = f"{prompt}. Generate this image with aspect ratio {ratio}."
+
+    # Gemini generateContent formati
     payload = {
-        "instances": [
-            { "prompt": prompt }
+        "contents": [
+            {
+                "role": "user",
+                "parts": [
+                    {"text": full_prompt}
+                ]
+            }
         ],
-        "parameters": {
-            "sampleCount": 1,
-            "aspectRatio": ratio
+        "generationConfig": {
+            "responseModalities": ["IMAGE", "TEXT"]
         }
     }
 
     try:
-        # 3. Googlega so'rov yuboramiz
+        # 3. Google Gemini API ga so'rov yuboramiz
+        print(f"--- DEBUG: Google API URL: {google_url}")
         print(f"--- DEBUG: Google API Payload: {payload}")
-        response = requests.post(google_url, json=payload, timeout=45)
-        
-        print(f"--- DEBUG: Google API Status Code: {response.status_code}")
-        print(f"--- DEBUG: Google API Response Body: {response.text}")
 
-        response_data = response.json()
+        response = requests.post(google_url, json=payload, timeout=60)
+
+        print(f"--- DEBUG: Google API Status Code: {response.status_code}")
+        print(f"--- DEBUG: Google API Response Body (first 500 chars): {response.text[:500]}")
 
         if response.status_code == 200:
-            # Muvaffaqiyatli!
-            gen_request.status = GenerationRequest.STATUS_COMPLETED
-            gen_request.completed_at = timezone.now()
-            gen_request.save()
-            return Response(response_data, status=status.HTTP_200_OK)
+            response_data = response.json()
+
+            # Javobdan rasmni olish
+            image_data = None
+            mime_type = "image/png"
+
+            candidates = response_data.get("candidates", [])
+            for candidate in candidates:
+                content = candidate.get("content", {})
+                parts = content.get("parts", [])
+                for part in parts:
+                    inline_data = part.get("inlineData")
+                    if inline_data and inline_data.get("data"):
+                        image_data = inline_data["data"]
+                        mime_type = inline_data.get("mimeType", "image/png")
+                        break
+                if image_data:
+                    break
+
+            if image_data:
+                # Muvaffaqiyatli!
+                gen_request.status = GenerationRequest.STATUS_COMPLETED
+                gen_request.completed_at = timezone.now()
+                gen_request.save()
+
+                return Response({
+                    "predictions": [
+                        {
+                            "bytesBase64Encoded": image_data,
+                            "mimeType": mime_type
+                        }
+                    ]
+                }, status=status.HTTP_200_OK)
+            else:
+                raise Exception(
+                    "Google API rasm qaytarmadi. Javob: "
+                    + response.text[:300]
+                )
         else:
             # Google xatolik qaytardi (masalan 400, 401, 403)
-            error_text = response.text
-            raise Exception(f"Google API Error ({response.status_code}): {error_text}")
+            raise Exception(f"Google API Error ({response.status_code}): {response.text[:500]}")
 
     except Exception as e:
         # 4. ERROR bo'lsa pulni qaytarish (Rollback mechanism)
+        print(f"--- DEBUG: Exception: {str(e)}")
+
         gen_request.status = GenerationRequest.STATUS_FAILED
-        gen_request.error_message = str(e)
+        gen_request.error_message = str(e)[:500]
         gen_request.save()
 
         # Agar token ishlatilgan bo'lsa, uni qaytarib beramiz
@@ -185,5 +235,5 @@ def generate_image_view(request):
 
         return Response({
             "error": "Rasm yaratishda xatolik yuz berdi. Hisobingizdan token yechilmadi.",
-            "details": str(e) if settings.DEBUG else "Internal Server Error"
+            "details": str(e)
         }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
