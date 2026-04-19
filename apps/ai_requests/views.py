@@ -1,22 +1,22 @@
 import requests
 from django.conf import settings
 from django.shortcuts import get_object_or_404
+from django.db import transaction
+from django.utils import timezone
+
 from rest_framework import status
 from rest_framework.parsers import FormParser, JSONParser, MultiPartParser
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from rest_framework.decorators import api_view, permission_classes
 
 from .models import GenerationRequest
 from .prompt_dispatcher import build_prompt
 from .serializers import GenerationRequestSerializer, GenerationSubmitSerializer, PromptPreviewSerializer
 from .services import create_generation_request, execute_generation
 from .tasks import process_generation_request
-from rest_framework.decorators import api_view, permission_classes
-from rest_framework.permissions import IsAuthenticated
-from django.db import transaction
-from django.utils import timezone
 
 
 class GenerationPagination(PageNumberPagination):
@@ -94,6 +94,8 @@ class MyGenerationDetailView(APIView):
 
     def get(self, request, pk):
         gen_request = get_object_or_404(GenerationRequest, pk=pk, user=request.user)
+        return Response(GenerationRequestSerializer(gen_request).data)
+
 
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
@@ -108,6 +110,7 @@ def generate_image_view(request):
     user = request.user
     profile = user.profile
     prompt = request.data.get('prompt')
+    ratio = request.data.get('ratio', '1:1')  # Frontenddan kelgan ratio (aspectRatio)
 
     if not prompt:
         return Response({"error": "Prompt kiritilmagan"}, status=status.HTTP_400_BAD_REQUEST)
@@ -128,6 +131,7 @@ def generate_image_view(request):
         user=user,
         module="imagen-3-proxy",
         prompt=prompt,
+        payload={"ratio": ratio},
         credits_charged=reservation["charged_tokens"],
         used_free_generation=reservation["used_free_generation"],
         status=GenerationRequest.STATUS_PROCESSING,
@@ -137,14 +141,25 @@ def generate_image_view(request):
     api_key = settings.GEMINI_API_KEY
     google_url = f"https://generativelanguage.googleapis.com/v1beta/models/imagen-3.0-generate-001:predict?key={api_key}"
     
+    # Payloadni Google Imagen 3 talabiga ko'ra shakllantiramiz
     payload = {
-        "instances": [{"prompt": prompt}],
-        "parameters": {"sampleCount": 1}
+        "instances": [
+            { "prompt": prompt }
+        ],
+        "parameters": {
+            "sampleCount": 1,
+            "aspectRatio": ratio
+        }
     }
 
     try:
         # 3. Googlega so'rov yuboramiz
+        print(f"--- DEBUG: Google API Payload: {payload}")
         response = requests.post(google_url, json=payload, timeout=45)
+        
+        print(f"--- DEBUG: Google API Status Code: {response.status_code}")
+        print(f"--- DEBUG: Google API Response Body: {response.text}")
+
         response_data = response.json()
 
         if response.status_code == 200:
@@ -154,8 +169,9 @@ def generate_image_view(request):
             gen_request.save()
             return Response(response_data, status=status.HTTP_200_OK)
         else:
-            # Google xatolik qaytardi
-            raise Exception(f"Google API Error: {response.text}")
+            # Google xatolik qaytardi (masalan 400, 401, 403)
+            error_text = response.text
+            raise Exception(f"Google API Error ({response.status_code}): {error_text}")
 
     except Exception as e:
         # 4. ERROR bo'lsa pulni qaytarish (Rollback mechanism)

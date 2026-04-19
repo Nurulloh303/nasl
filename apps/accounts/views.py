@@ -1,12 +1,13 @@
 from django.contrib.auth import get_user_model
 from django.db import transaction as db_transaction
-from .models import Profile
+from django.utils.crypto import get_random_string
+
 from rest_framework import generics, status
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from django.utils.crypto import get_random_string
 
+from .models import Profile
 from .serializers import (
     LoginSerializer,
     ProfileSerializer,
@@ -90,7 +91,8 @@ class TelegramAuthView(APIView):
             first_name=first_name,
             last_name=last_name,
         )
-        # Profilni olamiz (yoki yaratamiz, agar signal ishlamay qolgan bo'lsa)
+        
+        # Profilni olamiz (yoki yaratamiz)
         profile, created = Profile.objects.get_or_create(user=user)
         profile.telegram_id = telegram_id
         profile.full_name = full_name
