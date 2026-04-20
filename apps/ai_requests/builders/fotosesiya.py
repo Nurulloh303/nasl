@@ -1,14 +1,24 @@
 from apps.ai_requests.prompt_data import QUALITY_SUFFIX
 
 def build_fotosesiya_prompt(data: dict) -> str:
-    custom_prompt = data.get("custom_prompt", "").strip()
-    count = int(data.get("image_count", 2))
+    custom_prompt = data.get("custom_prompt", data.get("customFotosesiyaPrompt", "")).strip()
+    count = int(data.get("image_count", data.get("fotosesiyaCount", 2)))
+    ratio = data.get("ratio", "")
+    style_prompt = data.get("style_prompt", data.get("promptSuffix", ""))
+
     parts = [
         f"Create {count} professional photoshoot scenes for the uploaded product.",
-        "Each generated image should have a unique commercial composition and advertising-ready presentation.",
+        "Each generated image should have a unique commercial composition and advertising-ready presentation."
     ]
+    if ratio:
+        parts.append(f"Aspect Ratio: {ratio}.")
+        
+    if style_prompt:
+        parts.append(f"Style: {style_prompt}")
+        
     if custom_prompt:
         parts.append(f"Photoshoot direction: {custom_prompt}.")
+        
     parts.append("Use premium lighting, realistic shadows, and strong product focus.")
     parts.append(QUALITY_SUFFIX)
     return " ".join(parts)
