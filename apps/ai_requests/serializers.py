@@ -4,6 +4,10 @@ from rest_framework import serializers
 from .models import GenerationAsset, GenerationRequest, UploadedSourceImage
 from .prompt_dispatcher import build_prompt
 
+class GenerateImageSerializer(serializers.Serializer):
+    prompt = serializers.CharField(help_text="Prompt for generation", required=True)
+    ratio = serializers.CharField(default="1:1", help_text="Aspect ratio (e.g. 1:1, 16:9)", required=False)
+
 class PromptPreviewSerializer(serializers.Serializer):
     module = serializers.CharField()
     data = serializers.DictField()

@@ -4,7 +4,7 @@ from .views import (
     MyGenerationDetailView,
     MyGenerationListView,
     PromptPreviewView,
-    generate_image_view,
+    GenerateImageView,
 )
 
 urlpatterns = [
@@ -12,5 +12,5 @@ urlpatterns = [
     path("submit/", GenerationSubmitView.as_view(), name="generation-submit"),
     path("requests/", MyGenerationListView.as_view(), name="generation-list"),
     path("requests/<uuid:pk>/", MyGenerationDetailView.as_view(), name="generation-detail"),
-    path("generate-image/", generate_image_view, name="generate-image"),
+    path("generate-image/", GenerateImageView.as_view(), name="generate-image"),
 ]
