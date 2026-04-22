@@ -143,25 +143,25 @@ class GenerateImageView(generics.GenericAPIView):
         full_prompt = f"{prompt}. Generate this image with aspect ratio {ratio}."
 
         # ==========================================
-        # 1-URINISH: GEMINI API
+        # 1-URINISH: GEMINI (IMAGEN) API
         # ==========================================
         try:
             api_key = settings.GEMINI_API_KEY
             model_name = settings.GEMINI_IMAGE_MODEL
+            
+            # DIQQAT: Imagen 4.0 uchun manzil oxiri :predict bilan tugashi shart!
             google_url = (
                 f"https://generativelanguage.googleapis.com/v1beta/"
-                f"models/{model_name}:generateContent?key={api_key}"
+                f"models/{model_name}:predict?key={api_key}"
             )
 
+            # Imagen 4.0 tushunadigan to'g'ri payload formati
             payload = {
-                "contents": [
-                    {
-                        "role": "user",
-                        "parts": [{"text": full_prompt}]
-                    }
+                "instances": [
+                    {"prompt": full_prompt}
                 ],
-                "generationConfig": {
-                    "responseModalities": ["IMAGE", "TEXT"]
+                "parameters": {
+                    "sampleCount": 1
                 }
             }
 
@@ -169,23 +169,13 @@ class GenerateImageView(generics.GenericAPIView):
 
             if response.status_code == 200:
                 response_data = response.json()
-                image_data = None
-                mime_type = "image/png"
+                predictions = response_data.get("predictions", [])
+                
+                # Imagen rasmni to'g'ridan-to'g'ri bytesBase64Encoded kalitida qaytaradi
+                if predictions and "bytesBase64Encoded" in predictions[0]:
+                    image_data = predictions[0]["bytesBase64Encoded"]
+                    mime_type = predictions[0].get("mimeType", "image/jpeg")
 
-                candidates = response_data.get("candidates", [])
-                for candidate in candidates:
-                    content = candidate.get("content", {})
-                    parts = content.get("parts", [])
-                    for part in parts:
-                        inline_data = part.get("inlineData")
-                        if inline_data and inline_data.get("data"):
-                            image_data = inline_data["data"]
-                            mime_type = inline_data.get("mimeType", "image/png")
-                            break
-                    if image_data:
-                        break
-
-                if image_data:
                     gen_request.status = GenerationRequest.STATUS_COMPLETED
                     gen_request.completed_at = timezone.now()
                     gen_request.save()
@@ -197,13 +187,12 @@ class GenerateImageView(generics.GenericAPIView):
                                 "mimeType": mime_type
                             }
                         ],
-                        "provider": "gemini" # Frontend qaysi AI ishlaganini bilishi uchun
+                        "provider": "imagen-4.0"
                     }, status=status.HTTP_200_OK)
                 else:
                     raise Exception("Google API rasm qaytarmadi.")
             else:
                 raise Exception(f"Google API Error ({response.status_code}): {response.text[:200]}")
-
         # ==========================================
         # 2-URINISH: SEGMIND API (ZAXIRA)
         # ==========================================
