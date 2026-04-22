@@ -103,7 +103,7 @@ class MyGenerationDetailView(generics.RetrieveAPIView):
 
 class GenerateImageView(generics.GenericAPIView):
     """
-    KUCHAYTIRILGAN (TANK) PROXY VIEW — Gemini 3.1 Pro Preview.
+    KUCHAYTIRILGAN (TANK) PROXY VIEW — Gemini + Segmind Fallback.
     """
     permission_classes = [IsAuthenticated]
     serializer_class = GenerateImageSerializer
@@ -140,28 +140,31 @@ class GenerateImageView(generics.GenericAPIView):
             started_at=timezone.now()
         )
 
-        api_key = settings.GEMINI_API_KEY
-        model_name = settings.GEMINI_IMAGE_MODEL
-        google_url = (
-            f"https://generativelanguage.googleapis.com/v1beta/"
-            f"models/{model_name}:generateContent?key={api_key}"
-        )
-
         full_prompt = f"{prompt}. Generate this image with aspect ratio {ratio}."
 
-        payload = {
-            "contents": [
-                {
-                    "role": "user",
-                    "parts": [{"text": full_prompt}]
-                }
-            ],
-            "generationConfig": {
-                "responseModalities": ["IMAGE", "TEXT"]
-            }
-        }
-
+        # ==========================================
+        # 1-URINISH: GEMINI API
+        # ==========================================
         try:
+            api_key = settings.GEMINI_API_KEY
+            model_name = settings.GEMINI_IMAGE_MODEL
+            google_url = (
+                f"https://generativelanguage.googleapis.com/v1beta/"
+                f"models/{model_name}:generateContent?key={api_key}"
+            )
+
+            payload = {
+                "contents": [
+                    {
+                        "role": "user",
+                        "parts": [{"text": full_prompt}]
+                    }
+                ],
+                "generationConfig": {
+                    "responseModalities": ["IMAGE", "TEXT"]
+                }
+            }
+
             response = requests.post(google_url, json=payload, timeout=60)
 
             if response.status_code == 200:
@@ -193,22 +196,70 @@ class GenerateImageView(generics.GenericAPIView):
                                 "bytesBase64Encoded": image_data,
                                 "mimeType": mime_type
                             }
-                        ]
+                        ],
+                        "provider": "gemini" # Frontend qaysi AI ishlaganini bilishi uchun
                     }, status=status.HTTP_200_OK)
                 else:
-                    raise Exception("Google API rasm qaytarmadi. Javob: " + response.text[:300])
+                    raise Exception("Google API rasm qaytarmadi.")
             else:
-                raise Exception(f"Google API Error ({response.status_code}): {response.text[:500]}")
+                raise Exception(f"Google API Error ({response.status_code}): {response.text[:200]}")
 
-        except Exception as e:
-            gen_request.status = GenerationRequest.STATUS_FAILED
-            gen_request.error_message = str(e)[:500]
-            gen_request.save()
+        # ==========================================
+        # 2-URINISH: SEGMIND API (ZAXIRA)
+        # ==========================================
+        except Exception as gemini_error:
+            print(f"Gemini ishladi, lekin xato berdi: {gemini_error}. Segmind'ga o'tilmoqda...")
+            
+            try:
+                segmind_url = "https://api.segmind.com/v1/ssd-1b"
+                segmind_headers = {"x-api-key": getattr(settings, 'SEGMIND_API_KEY', '')}
+                segmind_data = {
+                    "prompt": full_prompt,
+                    "negative_prompt": "blurry, distorted, ugly, bad anatomy",
+                    "samples": 1,
+                    "base64": True
+                }
 
-            if reservation["charged_tokens"] > 0:
-                profile.refund_generation_tokens(reservation["charged_tokens"])
+                segmind_response = requests.post(segmind_url, json=segmind_data, headers=segmind_headers, timeout=60)
+                
+                if segmind_response.status_code == 200:
+                    segmind_image = segmind_response.json().get('image')
+                    
+                    if segmind_image:
+                        # Bazadagi modul nomini o'zgartirib qo'yamiz (tarix uchun)
+                        gen_request.module = "segmind-fallback"
+                        gen_request.status = GenerationRequest.STATUS_COMPLETED
+                        gen_request.completed_at = timezone.now()
+                        gen_request.save()
 
-            return Response({
-                "error": "Rasm yaratishda xatolik yuz berdi. Hisobingizdan token yechilmadi.",
-                "details": str(e)
-            }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+                        return Response({
+                            "predictions": [
+                                {
+                                    "bytesBase64Encoded": segmind_image,
+                                    "mimeType": "image/jpeg"
+                                }
+                            ],
+                            "provider": "segmind" # Frontend qaysi AI ishlaganini bilishi uchun
+                        }, status=status.HTTP_200_OK)
+                    else:
+                        raise Exception("Segmind API rasm qaytarmadi.")
+                else:
+                    raise Exception(f"Segmind Error: {segmind_response.text[:200]}")
+
+            # ==========================================
+            # IKKALA API HAM ISHLAMASA
+            # ==========================================
+            except Exception as segmind_error:
+                gen_request.status = GenerationRequest.STATUS_FAILED
+                # Ikkala xatoni ham bazaga yozib qo'yamiz
+                gen_request.error_message = f"Gemini: {gemini_error} | Segmind: {segmind_error}"[:500]
+                gen_request.save()
+
+                # Pulni qaytarish
+                if reservation["charged_tokens"] > 0:
+                    profile.refund_generation_tokens(reservation["charged_tokens"])
+
+                return Response({
+                    "error": "Rasm yaratishda xatolik yuz berdi. Ikkala AI ham ishlamadi. Token yechilmadi.",
+                    "details": str(segmind_error)
+                }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
