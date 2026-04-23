@@ -712,3 +712,8 @@ INFO 2026-04-21 19:22:32,230 basehttp 6624 3868 "GET /admin/promo/promocode/1/ch
 INFO 2026-04-21 19:22:32,574 basehttp 6624 3868 "GET /admin/jsi18n/ HTTP/1.1" 200 3342
 WARNING 2026-04-21 19:23:02,613 log 6624 3868 Unauthorized: /api/v1/promo/activate/
 WARNING 2026-04-21 19:23:02,690 basehttp 6624 3868 "POST /api/v1/promo/activate/ HTTP/1.1" 401 72
+INFO 2026-04-23 20:27:28,989 autoreload 6396 13928 Watching for file changes with StatReloader
+INFO 2026-04-23 20:27:34,686 basehttp 6396 10496 "GET /api/docs/ HTTP/1.1" 200 4644
+INFO 2026-04-23 20:27:35,573 basehttp 6396 10496 "GET /api/schema/ HTTP/1.1" 200 34260
+WARNING 2026-04-23 20:27:54,897 log 6396 10496 Unauthorized: /api/v1/generate/generate-image/
+WARNING 2026-04-23 20:27:54,920 basehttp 6396 10496 "POST /api/v1/generate/generate-image/ HTTP/1.1" 401 57
