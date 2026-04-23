@@ -229,7 +229,7 @@ class GenerateImageView(generics.GenericAPIView):
                 }
 
                 # Segmind'ga so'rov yuborish
-                seg_response = requests.post(url, json=payload, headers=headers, timeout=60)
+                seg_response = requests.post(url, json=payload, headers=headers, timeout=300)
 
                 if seg_response.status_code == 200:
                     seg_data = seg_response.json()
@@ -262,9 +262,12 @@ class GenerateImageView(generics.GenericAPIView):
                 gen_request.error_message = f"Gemini: {gemini_error} | Segmind: {str(seg_e)}"
                 gen_request.save()
                 
-                profile.refund_generation(reservation)
+                # MANA SHU YERNI TO'G'RILAYMIZ (O'zingizning tayyor funksiyangizni chaqiramiz):
+                if reservation and reservation.get("charged_tokens", 0) > 0:
+                    profile.refund_generation_tokens(reservation["charged_tokens"])
+                
                 return Response({
-                    "error": "Rasm yaratishda xatolik yuz berdi. Ikkala AI ham ishlamadi. Token yechilmadi.",
+                    "error": "Rasm yaratishda xatolik yuz berdi. Ikkala AI ham ishlamadi.",
                     "details": str(seg_e)
                 }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
             # ==========================================
