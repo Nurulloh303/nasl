@@ -194,47 +194,79 @@ class GenerateImageView(generics.GenericAPIView):
             else:
                 raise Exception(f"Google API Error ({response.status_code}): {response.text[:200]}")
         # ==========================================
-        # 2-URINISH: SEGMIND API (ZAXIRA)
+        # 2-URINISH: SEGMIND ZAXIRASI
         # ==========================================
-        except Exception as gemini_error:
-            print(f"Gemini ishladi, lekin xato berdi: {gemini_error}. Segmind'ga o'tilmoqda...")
-            
+        except Exception as e:
+            gemini_error = str(e)
+            print(f"Gemini ishladi, lekin xato berdi: {gemini_error}...\n2-urinish. Segmind'ga o'tilmoqda...")
+
             try:
-                segmind_url = "https://api.segmind.com/v1/ssd-1b"
-                segmind_headers = {"x-api-key": getattr(settings, 'SEGMIND_API_KEY', '')}
-                segmind_data = {
+                segmind_key = settings.SEGMIND_API_KEY
+                
+                if not segmind_key:
+                     raise Exception("Segmind API kaliti sozlanmagan.")
+
+                # Segmind SDXL 1.0 modeli manzili
+                url = "https://api.segmind.com/v1/sdxl1.0-txt2img"
+                
+                # Segmind payload'i
+                payload = {
                     "prompt": full_prompt,
-                    "negative_prompt": "blurry, distorted, ugly, bad anatomy",
+                    "negative_prompt": "ugly, bad resolution",
                     "samples": 1,
-                    "base64": True
+                    "scheduler": "UniPC",
+                    "num_inference_steps": 25,
+                    "guidance_scale": 7.5,
+                    "seed": -1,
+                    "img_width": 1024,
+                    "img_height": 1024,
+                    "base64": True # Buni albatta True qiling, rasm base64 da qaytishi uchun
                 }
 
-                segmind_response = requests.post(segmind_url, json=segmind_data, headers=segmind_headers, timeout=60)
-                
-                if segmind_response.status_code == 200:
-                    segmind_image = segmind_response.json().get('image')
-                    
-                    if segmind_image:
-                        # Bazadagi modul nomini o'zgartirib qo'yamiz (tarix uchun)
-                        gen_request.module = "segmind-fallback"
-                        gen_request.status = GenerationRequest.STATUS_COMPLETED
-                        gen_request.completed_at = timezone.now()
-                        gen_request.save()
+                headers = {
+                    "x-api-key": segmind_key,
+                    "Content-Type": "application/json"
+                }
 
-                        return Response({
-                            "predictions": [
-                                {
-                                    "bytesBase64Encoded": segmind_image,
-                                    "mimeType": "image/jpeg"
-                                }
-                            ],
-                            "provider": "segmind" # Frontend qaysi AI ishlaganini bilishi uchun
-                        }, status=status.HTTP_200_OK)
+                # Segmind'ga so'rov yuborish
+                seg_response = requests.post(url, json=payload, headers=headers, timeout=60)
+
+                if seg_response.status_code == 200:
+                    seg_data = seg_response.json()
+                    
+                    # Segmind qaytargan rasmni olish
+                    if "image" in seg_data:
+                        image_base64 = seg_data["image"]
                     else:
                         raise Exception("Segmind API rasm qaytarmadi.")
-                else:
-                    raise Exception(f"Segmind Error: {segmind_response.text[:200]}")
 
+                    # Muvaffaqiyatli saqlash
+                    gen_request.status = GenerationRequest.STATUS_COMPLETED
+                    gen_request.completed_at = timezone.now()
+                    gen_request.save()
+
+                    return Response({
+                        "predictions": [
+                            {
+                                "bytesBase64Encoded": image_base64,
+                                "mimeType": "image/jpeg"
+                            }
+                        ],
+                        "provider": "segmind" # Frontend kimdan kelganini bilishi uchun
+                    }, status=status.HTTP_200_OK)
+                else:
+                    raise Exception(f"Segmind Error: {seg_response.text}")
+                    
+            except Exception as seg_e:
+                gen_request.status = GenerationRequest.STATUS_FAILED
+                gen_request.error_message = f"Gemini: {gemini_error} | Segmind: {str(seg_e)}"
+                gen_request.save()
+                
+                profile.refund_generation(reservation)
+                return Response({
+                    "error": "Rasm yaratishda xatolik yuz berdi. Ikkala AI ham ishlamadi. Token yechilmadi.",
+                    "details": str(seg_e)
+                }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
             # ==========================================
             # IKKALA API HAM ISHLAMASA
             # ==========================================
