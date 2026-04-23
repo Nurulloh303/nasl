@@ -207,7 +207,7 @@ class GenerateImageView(generics.GenericAPIView):
                      raise Exception("Segmind API kaliti sozlanmagan.")
 
                 # Segmind SDXL 1.0 modeli manzili
-                url = "https://api.segmind.com/v1/sdxl1.0-txt2img"
+                url = "https://api.segmind.com/v1/ssd-1b"
                 
                 # Segmind payload'i
                 payload = {
@@ -229,7 +229,7 @@ class GenerateImageView(generics.GenericAPIView):
                 }
 
                 # Segmind'ga so'rov yuborish
-                seg_response = requests.post(url, json=payload, headers=headers, timeout=300)
+                seg_response = requests.post(url, json=payload, headers=headers, timeout=90)
 
                 if seg_response.status_code == 200:
                     seg_data = seg_response.json()
