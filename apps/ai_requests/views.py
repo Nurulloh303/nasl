@@ -163,11 +163,11 @@ class GenerateImageView(generics.GenericAPIView):
                     "prompt": full_prompt,
                     "negative_prompt": "ugly, bad resolution, deformed, completely different product, low quality",
                     "image": clean_base64,
-                    "strength": 0.45,  # 45% o'zgarish, 55% aslini saqlash
+                    "strength": 0.85,       # 0.45 ni 0.85 ga o'zgartiring (Fonni keskin almashtirishi uchun)
+                    "guidance_scale": 9.0,  # 45% o'zgarish, 55% aslini saqlash
                     "samples": 1,
                     "scheduler": "UniPC",
                     "num_inference_steps": 25,
-                    "guidance_scale": 7.5,
                     "base64": True
                 }
                 headers = {"x-api-key": segmind_key, "Content-Type": "application/json"}
