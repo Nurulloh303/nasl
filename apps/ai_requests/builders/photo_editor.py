@@ -1,22 +1,21 @@
 from apps.ai_requests.prompt_data import MARKETPLACE_TEMPLATES, PHOTO_STYLES, QUALITY_SUFFIX
 
-QUALITY_ENFORCEMENT = "CRITICAL QUALITY ENFORCEMENT: Flawless, photorealistic, high-end commercial quality. NO distorted text, NO weird proportions."
-RATIO_STRICT_RULE = "CRITICAL: The output image MUST strictly fill the {ratio} frame."
+QUALITY_ENFORCEMENT = "CRITICAL QUALITY ENFORCEMENT: Flawless, photorealistic, high-end commercial quality. NO distorted text."
+RATIO_STRICT_RULE = "STRICT ASPECT RATIO: {ratio}."
 
 PHOTO_EDITOR_PROMPT = """You are an expert E-commerce Image Editor and Retoucher.
 
-TASK: Enhance and place the uploaded product into a professional setting.
-
+TASK: Professional background replacement.
 {ratio_rule}
 
 STRICT PRODUCT INTEGRITY RULES:
-1. THE PRODUCT MUST REMAIN EXACTLY THE SAME.
-2. Do not distort the shape, change the text, or alter the color of the main product.
+1. CRITICAL: Do NOT distort the product! The main product MUST remain exactly the same.
+2. Do not change the text, shape, or color of the uploaded item.
 
 DIRECTION:
 - Template Format: {template_name}
 - Style: {style}
-- Additional instructions: {custom_prompt}
+- User Note: {custom_prompt}
 
 {template_rule}
 {quality_rule}"""

@@ -1,22 +1,19 @@
 from apps.ai_requests.prompt_data import QUALITY_SUFFIX
 
 QUALITY_ENFORCEMENT = "CRITICAL QUALITY ENFORCEMENT: The final image MUST be of flawless, photorealistic, high-end commercial quality."
-RATIO_STRICT_RULE = "CRITICAL: The output image MUST strictly fill the {ratio} frame."
+RATIO_STRICT_RULE = "STRICT ASPECT RATIO: {ratio}."
 
-STYLE_COPY_PROMPT = """You are a Master Visual Artist and E-commerce Designer.
-
-TASK: Apply the visual style of the reference image to the uploaded product image.
+STYLE_COPY_PROMPT = """Task: Extract the visual language (composition, lighting, fonts, UI elements) from IMAGE 1 and apply it to the product in IMAGE 2.
 
 {ratio_rule}
 
-STRICT PRODUCT INTEGRITY RULES:
-1. THE UPLOADED PRODUCT IS SACRED. Preserve its exact identity, shape, proportions, and important visual details.
-2. ONLY change the background, lighting, and atmospheric effects to match the reference style.
+CRITICAL RULES:
+1. DO NOT copy any brand names, logos, watermarks, store names, or promotional words (like "скидка", "акция", "sale", "discount", prices, percentages) from IMAGE 1. The final image must be unbranded or use the exact text provided in the Copy Strategy.
+2. DO NOT change IMAGE 2 product pixels. Reposition and scale IMAGE 2 product creatively to fit the style of IMAGE 1.
 
-TEXT & TYPOGRAPHY:
-- Desired Headline: {smart_text}
-- Key product characteristics: {characteristics}
-- Language: Any text placed should be in {language}
+COPY STRATEGY & TYPOGRAPHY:
+- Language: {language}
+- Text Strategy: {text_strategy}
 
 ADDITIONAL STYLE NOTES: {custom_prompt}
 
@@ -25,16 +22,25 @@ ADDITIONAL STYLE NOTES: {custom_prompt}
 def build_style_copy_prompt(data: dict) -> str:
     custom_prompt = data.get("custom_prompt", "").strip()
     ratio = data.get("ratio", "1:1")
-    language = data.get("language", data.get("selectedInfoLang", "uz"))
+    
+    # Til sozlamasi
+    raw_lang = data.get("language", data.get("selectedInfoLang", "uz"))
+    language = "Uzbek (Latin script)" if raw_lang == "uz" else "Russian"
+    
+    # Matn strategiyasi
     smart_text = data.get("smart_text", data.get("customSmartText", "")).strip()
     characteristics = data.get("characteristics", data.get("customCharacteristics", "")).strip()
+    
+    if smart_text or characteristics:
+        text_strategy = f'Headline: "{smart_text}", Features: "{characteristics}".'
+    else:
+        text_strategy = "AUTOMATIC: Analyze product and add professional copy."
 
     ratio_rule_filled = RATIO_STRICT_RULE.format(ratio=ratio)
 
     final_prompt = STYLE_COPY_PROMPT.format(
         ratio_rule=ratio_rule_filled,
-        smart_text=smart_text if smart_text else "None",
-        characteristics=characteristics if characteristics else "None",
+        text_strategy=text_strategy,
         language=language,
         custom_prompt=custom_prompt if custom_prompt else "None",
         quality_rule=QUALITY_ENFORCEMENT
