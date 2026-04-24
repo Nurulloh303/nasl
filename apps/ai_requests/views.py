@@ -104,6 +104,7 @@ class MyGenerationDetailView(generics.RetrieveAPIView):
 class GenerateImageView(generics.GenericAPIView):
     """
     KUCHAYTIRILGAN (TANK) PROXY VIEW — Gemini + Segmind Fallback.
+    Image-to-Image qo'llab-quvvatlaydi.
     """
     permission_classes = [IsAuthenticated]
     serializer_class = GenerateImageSerializer
@@ -113,27 +114,30 @@ class GenerateImageView(generics.GenericAPIView):
         profile = user.profile
         prompt = request.data.get('prompt')
         ratio = request.data.get('ratio', '1:1')
+        
+        # --- 1-YANGILIK: Frontend'dan kelayotgan rasmni tutib olish ---
+        image_data = request.data.get('image') or request.data.get('imageBase64')
 
         if not prompt:
             return Response({"error": "Prompt kiritilmagan"}, status=status.HTTP_400_BAD_REQUEST)
 
-        # 1. Balansni tekshirish
+        # Balansni tekshirish
         token_cost = settings.GENERATION_TOKEN_COST
         reservation = profile.reserve_generation(token_cost)
 
         if reservation["charged_tokens"] == 0 and not reservation["used_free_generation"]:
             return Response({
-                "error": "Token yetarli emas yoki limit tugagan. Iltimos, balansni to'ldiring.",
+                "error": "Token yetarli emas. Balansni to'ldiring.",
                 "required": token_cost,
                 "available": profile.credits
             }, status=status.HTTP_402_PAYMENT_REQUIRED)
 
-        # 2. Bazada so'rovni yaratish
+        # Bazada so'rovni yaratish
         gen_request = GenerationRequest.objects.create(
             user=user,
             module="gemini-image-proxy",
             prompt=prompt,
-            payload={"ratio": ratio},
+            payload={"ratio": ratio, "has_image": bool(image_data)},
             credits_charged=reservation["charged_tokens"],
             used_free_generation=reservation["used_free_generation"],
             status=GenerationRequest.STATUS_PROCESSING,
@@ -142,6 +146,11 @@ class GenerateImageView(generics.GenericAPIView):
 
         full_prompt = f"{prompt}. Generate this image with aspect ratio {ratio}."
 
+        # Rasmni tozalash (data:image/jpeg;base64, qismini olib tashlash)
+        clean_base64 = None
+        if image_data:
+            clean_base64 = image_data.split(",")[-1] if "," in image_data else image_data
+
         # ==========================================
         # 1-URINISH: GEMINI (IMAGEN) API
         # ==========================================
@@ -149,17 +158,18 @@ class GenerateImageView(generics.GenericAPIView):
             api_key = settings.GEMINI_API_KEY
             model_name = settings.GEMINI_IMAGE_MODEL
             
-            # DIQQAT: Imagen 4.0 uchun manzil oxiri :predict bilan tugashi shart!
             google_url = (
                 f"https://generativelanguage.googleapis.com/v1beta/"
                 f"models/{model_name}:predict?key={api_key}"
             )
 
-            # Imagen 4.0 tushunadigan to'g'ri payload formati
+            # --- 2-YANGILIK: Imagen'ga rasmni birga yuborish ---
+            instance_data = {"prompt": full_prompt}
+            if clean_base64:
+                instance_data["image"] = {"bytesBase64Encoded": clean_base64}
+
             payload = {
-                "instances": [
-                    {"prompt": full_prompt}
-                ],
+                "instances": [instance_data],
                 "parameters": {
                     "sampleCount": 1
                 }
@@ -171,9 +181,8 @@ class GenerateImageView(generics.GenericAPIView):
                 response_data = response.json()
                 predictions = response_data.get("predictions", [])
                 
-                # Imagen rasmni to'g'ridan-to'g'ri bytesBase64Encoded kalitida qaytaradi
                 if predictions and "bytesBase64Encoded" in predictions[0]:
-                    image_data = predictions[0]["bytesBase64Encoded"]
+                    image_result = predictions[0]["bytesBase64Encoded"]
                     mime_type = predictions[0].get("mimeType", "image/jpeg")
 
                     gen_request.status = GenerationRequest.STATUS_COMPLETED
@@ -181,82 +190,78 @@ class GenerateImageView(generics.GenericAPIView):
                     gen_request.save()
 
                     return Response({
-                        "predictions": [
-                            {
-                                "bytesBase64Encoded": image_data,
-                                "mimeType": mime_type
-                            }
-                        ],
+                        "predictions": [{"bytesBase64Encoded": image_result, "mimeType": mime_type}],
                         "provider": "imagen-4.0"
                     }, status=status.HTTP_200_OK)
                 else:
                     raise Exception("Google API rasm qaytarmadi.")
             else:
                 raise Exception(f"Google API Error ({response.status_code}): {response.text[:200]}")
+
         # ==========================================
         # 2-URINISH: SEGMIND ZAXIRASI
         # ==========================================
         except Exception as e:
             gemini_error = str(e)
-            print(f"Gemini ishladi, lekin xato berdi: {gemini_error}...\n2-urinish. Segmind'ga o'tilmoqda...")
+            print(f"Gemini xatolik: {gemini_error}... Segmind'ga o'tilmoqda...")
 
             try:
                 segmind_key = settings.SEGMIND_API_KEY
-                
                 if not segmind_key:
-                     raise Exception("Segmind API kaliti sozlanmagan.")
+                     raise Exception("Segmind API kaliti yo'q.")
 
-                # Segmind SDXL 1.0 modeli manzili
-                url = "https://api.segmind.com/v1/ssd-1b"
-                
-                # Segmind payload'i
-                payload = {
-                    "prompt": full_prompt,
-                    "negative_prompt": "ugly, bad resolution",
-                    "samples": 1,
-                    "scheduler": "UniPC",
-                    "num_inference_steps": 25,
-                    "guidance_scale": 7.5,
-                    "seed": -1,
-                    "img_width": 1024,
-                    "img_height": 1024,
-                    "base64": True # Buni albatta True qiling, rasm base64 da qaytishi uchun
-                }
+                # --- 3-YANGILIK: Image-to-Image Endpoint va Strength qoidasi ---
+                if clean_base64:
+                    url = "https://api.segmind.com/v1/sdxl-img2img"
+                    payload = {
+                        "prompt": full_prompt,
+                        "negative_prompt": "ugly, bad resolution, deformed, completely different product",
+                        "image": clean_base64,
+                        "strength": 0.45,  # MUHIM: Rasm asl holatini qanchalik o'zgartirishi. 0.45 xavfsiz qiymat.
+                        "samples": 1,
+                        "scheduler": "UniPC",
+                        "num_inference_steps": 25,
+                        "guidance_scale": 7.5,
+                        "base64": True
+                    }
+                else:
+                    url = "https://api.segmind.com/v1/ssd-1b"
+                    payload = {
+                        "prompt": full_prompt,
+                        "negative_prompt": "ugly, bad resolution",
+                        "samples": 1,
+                        "scheduler": "UniPC",
+                        "num_inference_steps": 25,
+                        "guidance_scale": 7.5,
+                        "base64": True
+                    }
 
                 headers = {
                     "x-api-key": segmind_key,
                     "Content-Type": "application/json"
                 }
 
-                # Segmind'ga so'rov yuborish
                 seg_response = requests.post(url, json=payload, headers=headers, timeout=60)
 
                 if seg_response.status_code == 200:
                     seg_data = seg_response.json()
                     
-                    # Segmind qaytargan rasmni olish
                     if "image" in seg_data:
-                        image_base64 = seg_data["image"]
+                        image_base64_result = seg_data["image"]
                     else:
-                        raise Exception("Segmind API rasm qaytarmadi.")
+                        raise Exception("Segmind rasm qaytarmadi.")
 
-                    # Muvaffaqiyatli saqlash
                     gen_request.status = GenerationRequest.STATUS_COMPLETED
                     gen_request.completed_at = timezone.now()
                     gen_request.save()
 
                     return Response({
-                        "predictions": [
-                            {
-                                "bytesBase64Encoded": image_base64,
-                                "mimeType": "image/jpeg"
-                            }
-                        ],
-                        "provider": "segmind" # Frontend kimdan kelganini bilishi uchun
+                        "predictions": [{"bytesBase64Encoded": image_base64_result, "mimeType": "image/jpeg"}],
+                        "provider": "segmind"
                     }, status=status.HTTP_200_OK)
                 else:
                     raise Exception(f"Segmind Error: {seg_response.text}")
-                    
+                
             except Exception as seg_e:
                 gen_request.status = GenerationRequest.STATUS_FAILED
                 gen_request.error_message = f"Gemini: {gemini_error} | Segmind: {str(seg_e)}"
@@ -264,24 +269,6 @@ class GenerateImageView(generics.GenericAPIView):
                 
                 profile.refund_generation(reservation)
                 return Response({
-                    "error": "Rasm yaratishda xatolik yuz berdi. Ikkala AI ham ishlamadi. Token yechilmadi.",
+                    "error": "AI xizmatlari vaqtincha band. Token qaytarildi.",
                     "details": str(seg_e)
-                }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-
-            # ==========================================
-            # IKKALA API HAM ISHLAMASA
-            # ==========================================
-            except Exception as segmind_error:
-                gen_request.status = GenerationRequest.STATUS_FAILED
-                # Ikkala xatoni ham bazaga yozib qo'yamiz
-                gen_request.error_message = f"Gemini: {gemini_error} | Segmind: {segmind_error}"[:500]
-                gen_request.save()
-
-                # Pulni qaytarish
-                if reservation["charged_tokens"] > 0:
-                    profile.refund_generation_tokens(reservation["charged_tokens"])
-
-                return Response({
-                    "error": "Rasm yaratishda xatolik yuz berdi. Ikkala AI ham ishlamadi. Token yechilmadi.",
-                    "details": str(segmind_error)
                 }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
