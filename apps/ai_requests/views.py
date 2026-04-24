@@ -172,7 +172,7 @@ class GenerateImageView(generics.GenericAPIView):
                 }
                 headers = {"x-api-key": segmind_key, "Content-Type": "application/json"}
 
-                response = requests.post(url, json=payload, headers=headers, timeout=60)
+                response = requests.post(url, json=payload, headers=headers, timeout=180)
                 
                 if response.status_code == 200:
                     response_data = response.json()
@@ -196,7 +196,7 @@ class GenerateImageView(generics.GenericAPIView):
                     "instances": [{"prompt": full_prompt}],
                     "parameters": {"sampleCount": 1}
                 }
-                response = requests.post(google_url, json=payload, timeout=60)
+                response = requests.post(google_url, json=payload, timeout=180)
 
                 if response.status_code == 200:
                     response_data = response.json()
