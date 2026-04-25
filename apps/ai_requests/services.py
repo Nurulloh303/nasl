@@ -94,6 +94,7 @@ def execute_generation(gen_request: GenerationRequest):
     data = gen_request.payload
     image_paths = [src.image.path for src in gen_request.source_images.all()]
     output_count = int(data.get("image_count", 1))
+    used_provider_name = provider.name
 
     try:
         if gen_request.module in TEXT_MODULES:
@@ -103,8 +104,25 @@ def execute_generation(gen_request: GenerationRequest):
                 _store_text_asset(gen_request, text, idx)
             gen_request.output_count = len(texts) or 1
         else:
-            result = provider.generate_images(prompt, image_paths=image_paths, output_count=output_count)
-            images = result.get("images", [])
+            images = []
+            
+            # Agar rasm yuborilgan bo'lsa, avval Segmind (Img2Img) orqali urinib ko'ramiz
+            if image_paths:
+                try:
+                    from .providers.segmind import SegmindProvider
+                    segmind_provider = SegmindProvider()
+                    result = segmind_provider.generate_images(prompt, image_paths=image_paths, output_count=output_count)
+                    images = result.get("images", [])
+                    used_provider_name = segmind_provider.name
+                except Exception as e:
+                    logger.warning(f"Segmind Img2Img muvaffaqiyatsiz bo'ldi, Gemini-ga o'tilmoqda: {e}")
+            
+            # Agar Segmind ishlamasa yoki rasm yuborilmagan bo'lsa, Geminidan foydalanamiz
+            if not images:
+                result = provider.generate_images(prompt, image_paths=image_paths, output_count=output_count)
+                images = result.get("images", [])
+                used_provider_name = provider.name
+
             for idx, image_payload in enumerate(images):
                 _store_image_asset(gen_request, image_payload, idx)
             gen_request.output_count = len(images) or 1
@@ -116,7 +134,7 @@ def execute_generation(gen_request: GenerationRequest):
         UsageLog.objects.update_or_create(
             request=gen_request,
             defaults={
-                "provider": provider.name,
+                "provider": used_provider_name,
                 "success": True,
                 "credits_used": gen_request.credits_charged or (0 if gen_request.used_free_generation else max(1, settings.GENERATION_TOKEN_COST)),
                 "response_time_ms": int((time.perf_counter() - started) * 1000),
@@ -132,7 +150,7 @@ def execute_generation(gen_request: GenerationRequest):
         UsageLog.objects.update_or_create(
             request=gen_request,
             defaults={
-                "provider": provider.name,
+                "provider": used_provider_name,
                 "success": False,
                 "credits_used": 0,
                 "response_time_ms": int((time.perf_counter() - started) * 1000),
