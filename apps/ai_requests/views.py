@@ -114,7 +114,19 @@ class GenerateImageView(generics.GenericAPIView):
         profile = user.profile
         prompt = request.data.get('prompt')
         ratio = request.data.get('ratio', '1:1')
+        
+        # Asosiy rasm (Mahsulot)
         image_data = request.data.get('image') or request.data.get('imageBase64')
+        # Uslub rasmi (Style Reference)
+        style_image_data = request.data.get('style_image') or request.data.get('styleImage')
+        
+        # Yangi parametrlar (Frontenddan keladi)
+        mode = request.data.get('mode', 'generate') # "generate", "edit", "style_transfer", "inpaint"
+        negative_prompt = request.data.get('negative_prompt', 'ugly, bad resolution, deformed, completely different product, low quality, artifacts')
+        try:
+            denoising_strength = float(request.data.get('denoising_strength') or request.data.get('strength') or 0.85)
+        except (ValueError, TypeError):
+            denoising_strength = 0.85
 
         if not prompt:
             return Response({"error": "Prompt kiritilmagan"}, status=status.HTTP_400_BAD_REQUEST)
@@ -133,9 +145,15 @@ class GenerateImageView(generics.GenericAPIView):
         # 2. Bazada so'rovni saqlash
         gen_request = GenerationRequest.objects.create(
             user=user,
-            module="smart-image-proxy",
+            module=f"smart-image-proxy-{mode}",
             prompt=prompt,
-            payload={"ratio": ratio, "has_image": bool(image_data)},
+            payload={
+                "ratio": ratio, 
+                "has_image": bool(image_data),
+                "has_style_image": bool(style_image_data),
+                "mode": mode,
+                "denoising_strength": denoising_strength
+            },
             credits_charged=reservation["charged_tokens"],
             used_free_generation=reservation["used_free_generation"],
             status=GenerationRequest.STATUS_PROCESSING,
@@ -151,26 +169,55 @@ class GenerateImageView(generics.GenericAPIView):
 
         try:
             # ==========================================
-            # 1-YO'NALISH: AGAR RASM BO'LSA -> SEGMIND (Img2Img)
+            # 1-YO'NALISH: SEGMIND (ADVANCED PIPELINES)
             # ==========================================
             if clean_base64:
                 segmind_key = settings.SEGMIND_API_KEY
                 if not segmind_key:
                      raise Exception("Segmind API kaliti yo'q.")
-
-                url = "https://api.segmind.com/v1/sdxl-img2img"
-                payload = {
-                    "prompt": full_prompt,
-                    "negative_prompt": "ugly, bad resolution, deformed, completely different product, low quality",
-                    "image": clean_base64,
-                    "strength": 0.85,    
-                    "guidance_scale": 9.0, 
-                    "samples": 1,
-                    "scheduler": "UniPC",
-                    "num_inference_steps": 25,
-                    "base64": True
-                }
+                
                 headers = {"x-api-key": segmind_key, "Content-Type": "application/json"}
+
+                if mode == "inpaint":
+                    # Inpaint/Background Generator rejimi (Mahsulotni asrab qolish uchun)
+                    url = "https://api.segmind.com/v1/replace-background"
+                    payload = {
+                        "prompt": full_prompt,
+                        "negative_prompt": negative_prompt,
+                        "image": clean_base64,
+                        "base64": True
+                    }
+                    provider = "segmind-inpaint"
+                
+                elif mode == "style_transfer" and style_image_data:
+                    # Style Transfer (IP-Adapter) rejimi
+                    clean_style_base64 = style_image_data.split(",")[-1] if "," in style_image_data else style_image_data
+                    url = "https://api.segmind.com/v1/ip-adapter-sdxl"
+                    payload = {
+                        "prompt": full_prompt,
+                        "negative_prompt": negative_prompt,
+                        "image": clean_base64, 
+                        "ip_image": clean_style_base64, 
+                        "style_strength": denoising_strength,
+                        "base64": True
+                    }
+                    provider = "segmind-ip-adapter"
+
+                else:
+                    # Oddiy Img2Img yoki Edit rejimi
+                    url = "https://api.segmind.com/v1/sdxl-img2img"
+                    payload = {
+                        "prompt": full_prompt,
+                        "negative_prompt": negative_prompt,
+                        "image": clean_base64,
+                        "strength": denoising_strength,    
+                        "guidance_scale": 9.0, 
+                        "samples": 1,
+                        "scheduler": "UniPC",
+                        "num_inference_steps": 25,
+                        "base64": True
+                    }
+                    provider = "segmind-img2img"
 
                 response = requests.post(url, json=payload, headers=headers, timeout=180)
                 
@@ -178,11 +225,12 @@ class GenerateImageView(generics.GenericAPIView):
                     response_data = response.json()
                     if "image" in response_data:
                         image_result = response_data["image"]
-                        provider = "segmind-img2img"
+                        if isinstance(image_result, list):
+                            image_result = image_result[0]
                     else:
-                        raise Exception("Segmind rasm qaytarmadi.")
+                        raise Exception(f"Segmind API ({provider}) rasm qaytarmadi.")
                 else:
-                    raise Exception(f"Segmind Error: {response.text}")
+                    raise Exception(f"Segmind Error [{provider}]: {response.text}")
 
             # ==========================================
             # 2-YO'NALISH: AGAR RASM BO'LMASA -> GEMINI (Txt2Img)

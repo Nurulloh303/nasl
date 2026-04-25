@@ -22,8 +22,32 @@ class SegmindProvider(BaseAIProvider):
         if not image_paths:
             raise ValueError("Segmind img2img uchun rasm kerak.")
 
-        with open(image_paths[0], "rb") as f:
-            clean_base64 = base64.b64encode(f.read()).decode("utf-8")
+        try:
+            from PIL import Image
+            import io
+            
+            # Agar 2 ta rasm kelsa (Masalan, Uslub namunasi va Mahsulot), 
+            # asosiysi Mahsulot (ya'ni oxirgi rasm) hisoblanadi.
+            # SDXL-img2img faqat bitta rasm qabul qilgani uchun mahsulotni asosiysi qilib olamiz.
+            target_image_path = image_paths[-1]
+            
+            with Image.open(target_image_path) as img:
+                # SDXL modeli uchun rasmni optimallashtiramiz (max 1024x1024). 
+                # Katta rasmlar jarayonni juda sekinlashtiradi.
+                max_size = (1024, 1024)
+                img.thumbnail(max_size, Image.Resampling.LANCZOS)
+                
+                if img.mode in ("RGBA", "P"):
+                    img = img.convert("RGB")
+                    
+                buffer = io.BytesIO()
+                img.save(buffer, format="JPEG", quality=85)
+                clean_base64 = base64.b64encode(buffer.getvalue()).decode("utf-8")
+        except Exception as e:
+            logger.error(f"Rasmni optimallashtirishda xato: {e}")
+            # Agar Pillow ishlamasa, eski usulda o'qiymiz
+            with open(target_image_path, "rb") as f:
+                clean_base64 = base64.b64encode(f.read()).decode("utf-8")
 
         url = "https://api.segmind.com/v1/sdxl-img2img"
         payload = {
